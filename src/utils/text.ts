@@ -38,7 +38,7 @@ export function truncateWords(text: string, maxLength: number, ellipsis: string 
 export function extractMentions(text: string): string[] {
   const mentionPattern = /@([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)/g;
   const matches = text.matchAll(mentionPattern);
-  return Array.from(matches, m => m[1]);
+  return Array.from(matches, m => m[1]).filter((m): m is string => m !== undefined);
 }
 
 /**

@@ -5,3 +5,5 @@ export * from './conversation';
 export * from './message';
 export * from './reaction';
 export * from './notification';
+export * from './socket';
+export * from './api';

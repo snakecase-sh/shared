@@ -17,3 +17,34 @@ export interface UserPresence {
   lastSeenAt: Date;
   customStatus?: string;
 }
+
+export interface Session {
+  id: string;
+  userId: string;
+  token: string;
+  expiresAt: Date;
+  createdAt: Date;
+  lastActivityAt: Date;
+  ipAddress: string | null;
+  userAgent: string | null;
+}
+
+export interface UserEntitlements {
+  userId: string;
+  plan: 'free' | 'pro' | 'team';
+  messageTextMaxChars: number;
+  codeBlockMaxChars: number;
+  attachmentMaxSize: number;
+  storageTotal: number;
+  storageUsed: number;
+  retentionDays: number;
+  dmRequestsPerDay: number;
+  dmRequestsPendingMax: number;
+  aiActionsPerWeek: number;
+  aiActionsUsedThisWeek: number;
+  groupsMax: number;
+  groupMembersMax: number;
+  exportsEnabled: boolean;
+  auditLogsEnabled: boolean;
+  samlSSOEnabled: boolean;
+}
