@@ -1,6 +1,4 @@
-import type { Message } from './message';
 import type { Reaction } from './reaction';
-import type { UserPresence } from './user';
 import type { Conversation } from './conversation';
 import type { Channel, ChannelMember } from './channel';
 import type { Workspace, WorkspaceMember } from './workspace';
@@ -23,61 +21,92 @@ export interface AuthErrorPayload {
 }
 
 // Message events
-export interface MessageSendPayload {
-  conversationId: string;
-  content: string;
-  parentMessageId?: string;
-  attachmentIds?: string[];
-  metadata?: Record<string, unknown>;
-}
-
 export interface MessageNewPayload {
-  message: Message;
+  conversationId: string;
+  messageId: string;
 }
 
-export interface MessageEditPayload {
-  messageId: string;
-  content: string;
+export interface MessageCreatedPayload {
+  message: {
+    id: string;
+    conversationId: string;
+    author: {
+      id: string;
+      username: string;
+      avatar: string | null;
+    };
+    content: string;
+    seq: number;
+    reactions: Reaction[];
+    createdAt: Date;
+    editedAt: Date | null;
+  };
 }
 
 export interface MessageEditedPayload {
-  message: Message;
+  messageId: string;
 }
 
-export interface MessageDeletePayload {
-  messageId: string;
+export interface MessageUpdatedPayload {
+  message: {
+    id: string;
+    conversationId: string;
+    author: {
+      id: string;
+      username: string;
+      avatar: string | null;
+    };
+    content: string;
+    seq: number;
+    reactions: Array<{
+      id: string;
+      emoji: string;
+      user: {
+        id: string;
+        username: string;
+      };
+      createdAt: Date;
+    }>;
+    createdAt: Date;
+    editedAt: Date | null;
+  };
 }
 
 export interface MessageDeletedPayload {
   messageId: string;
   conversationId: string;
+  seq: number;
 }
 
-export interface MessageTypingPayload {
+// Typing events
+export interface TypingStartPayload {
   conversationId: string;
   userId: string;
-  isTyping: boolean;
+  username: string;
+}
+
+export interface TypingStopPayload {
+  conversationId: string;
+  userId: string;
 }
 
 // Reaction events
-export interface ReactionAddPayload {
-  messageId: string;
-  emoji: string;
-}
-
 export interface ReactionAddedPayload {
-  reaction: Reaction;
-}
-
-export interface ReactionRemovePayload {
   messageId: string;
-  emoji: string;
+  reaction: {
+    id: string;
+    emoji: string;
+    user: {
+      id: string;
+      username: string;
+    };
+    createdAt: Date;
+  };
 }
 
 export interface ReactionRemovedPayload {
   messageId: string;
-  emoji: string;
-  userId: string;
+  reactionId: string;
 }
 
 // Conversation events
@@ -85,7 +114,15 @@ export interface ConversationJoinPayload {
   conversationId: string;
 }
 
+export interface ConversationJoinedPayload {
+  conversationId: string;
+}
+
 export interface ConversationLeavePayload {
+  conversationId: string;
+}
+
+export interface ConversationLeftPayload {
   conversationId: string;
 }
 
@@ -100,12 +137,13 @@ export interface ConversationUpdatedPayload {
 
 // Presence events
 export interface PresenceUpdatePayload {
-  status: 'online' | 'away' | 'dnd' | 'invisible';
-  customStatus?: string;
+  status: 'online' | 'away' | 'offline';
 }
 
 export interface PresenceChangedPayload {
-  presence: UserPresence;
+  userId: string;
+  status: 'online' | 'away' | 'offline';
+  timestamp: string;
 }
 
 // Notification events
@@ -168,21 +206,21 @@ export type SocketEventPayload =
   | { event: 'auth'; data: AuthPayload }
   | { event: 'auth:success'; data: AuthSuccessPayload }
   | { event: 'auth:error'; data: AuthErrorPayload }
-  | { event: 'message:send'; data: MessageSendPayload }
-  | { event: 'message:new'; data: MessageNewPayload }
-  | { event: 'message:edit'; data: MessageEditPayload }
-  | { event: 'message:edited'; data: MessageEditedPayload }
-  | { event: 'message:delete'; data: MessageDeletePayload }
-  | { event: 'message:deleted'; data: MessageDeletedPayload }
-  | { event: 'message:typing'; data: MessageTypingPayload }
-  | { event: 'reaction:add'; data: ReactionAddPayload }
-  | { event: 'reaction:added'; data: ReactionAddedPayload }
-  | { event: 'reaction:remove'; data: ReactionRemovePayload }
-  | { event: 'reaction:removed'; data: ReactionRemovedPayload }
   | { event: 'conversation:join'; data: ConversationJoinPayload }
+  | { event: 'conversation:joined'; data: ConversationJoinedPayload }
   | { event: 'conversation:leave'; data: ConversationLeavePayload }
+  | { event: 'conversation:left'; data: ConversationLeftPayload }
   | { event: 'conversation:mark_read'; data: ConversationMarkReadPayload }
   | { event: 'conversation:updated'; data: ConversationUpdatedPayload }
+  | { event: 'message:new'; data: MessageNewPayload }
+  | { event: 'message:created'; data: MessageCreatedPayload }
+  | { event: 'message:edited'; data: MessageEditedPayload }
+  | { event: 'message:updated'; data: MessageUpdatedPayload }
+  | { event: 'message:deleted'; data: MessageDeletedPayload }
+  | { event: 'typing:start'; data: TypingStartPayload }
+  | { event: 'typing:stop'; data: TypingStopPayload }
+  | { event: 'reaction:added'; data: ReactionAddedPayload }
+  | { event: 'reaction:removed'; data: ReactionRemovedPayload }
   | { event: 'presence:update'; data: PresenceUpdatePayload }
   | { event: 'presence:changed'; data: PresenceChangedPayload }
   | { event: 'notification:new'; data: NotificationNewPayload }
