@@ -55,8 +55,7 @@
     "build": "tsup src/index.ts src/constants/index.ts src/constants/plans.ts src/constants/events.ts src/constants/errors.ts src/types/index.ts src/validators/index.ts src/utils/index.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts src/constants/index.ts src/constants/plans.ts src/constants/events.ts src/constants/errors.ts src/types/index.ts src/validators/index.ts src/utils/index.ts --format cjs,esm --dts --watch",
     "clean": "rm -rf dist",
-    "typecheck": "tsc --noEmit",
-    "prepare": "npm run build"
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "snakecase",
