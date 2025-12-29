@@ -10,26 +10,28 @@ export const SOCKET_EVENTS = {
   AUTH_SUCCESS: 'auth:success',
   AUTH_ERROR: 'auth:error',
 
-  // Message events
-  MESSAGE_SEND: 'message:send',
-  MESSAGE_NEW: 'message:new',
-  MESSAGE_EDIT: 'message:edit',
-  MESSAGE_EDITED: 'message:edited',
-  MESSAGE_DELETE: 'message:delete',
-  MESSAGE_DELETED: 'message:deleted',
-  MESSAGE_TYPING: 'message:typing',
-
-  // Reaction events
-  REACTION_ADD: 'reaction:add',
-  REACTION_ADDED: 'reaction:added',
-  REACTION_REMOVE: 'reaction:remove',
-  REACTION_REMOVED: 'reaction:removed',
-
   // Conversation events
   CONVERSATION_JOIN: 'conversation:join',
+  CONVERSATION_JOINED: 'conversation:joined',
   CONVERSATION_LEAVE: 'conversation:leave',
+  CONVERSATION_LEFT: 'conversation:left',
   CONVERSATION_MARK_READ: 'conversation:mark_read',
   CONVERSATION_UPDATED: 'conversation:updated',
+
+  // Message events
+  MESSAGE_NEW: 'message:new',
+  MESSAGE_CREATED: 'message:created',
+  MESSAGE_EDITED: 'message:edited',
+  MESSAGE_UPDATED: 'message:updated',
+  MESSAGE_DELETED: 'message:deleted',
+
+  // Typing events
+  TYPING_START: 'typing:start',
+  TYPING_STOP: 'typing:stop',
+
+  // Reaction events
+  REACTION_ADDED: 'reaction:added',
+  REACTION_REMOVED: 'reaction:removed',
 
   // Presence events
   PRESENCE_UPDATE: 'presence:update',
