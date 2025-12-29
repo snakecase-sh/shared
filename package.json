@@ -11,14 +11,49 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./constants": {
+      "types": "./dist/constants/index.d.ts",
+      "import": "./dist/constants/index.js",
+      "require": "./dist/constants/index.cjs"
+    },
+    "./constants/plans": {
+      "types": "./dist/constants/plans.d.ts",
+      "import": "./dist/constants/plans.js",
+      "require": "./dist/constants/plans.cjs"
+    },
+    "./constants/events": {
+      "types": "./dist/constants/events.d.ts",
+      "import": "./dist/constants/events.js",
+      "require": "./dist/constants/events.cjs"
+    },
+    "./constants/errors": {
+      "types": "./dist/constants/errors.d.ts",
+      "import": "./dist/constants/errors.js",
+      "require": "./dist/constants/errors.cjs"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js",
+      "require": "./dist/types/index.cjs"
+    },
+    "./validators": {
+      "types": "./dist/validators/index.d.ts",
+      "import": "./dist/validators/index.js",
+      "require": "./dist/validators/index.cjs"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js",
+      "require": "./dist/utils/index.cjs"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "build": "tsup src/index.ts src/constants/index.ts src/constants/plans.ts src/constants/events.ts src/constants/errors.ts src/types/index.ts src/validators/index.ts src/utils/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts src/constants/index.ts src/constants/plans.ts src/constants/events.ts src/constants/errors.ts src/types/index.ts src/validators/index.ts src/utils/index.ts --format cjs,esm --dts --watch",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit"
   },
