@@ -1,0 +1,334 @@
+{
+  "welcome": {
+    "title": "Welcome to snakecase.sh",
+    "subtitle": "GitHub-Native Messaging for Developers",
+    "description": "Connect, collaborate, and communicate with your team using secure, encrypted messaging built for the GitHub ecosystem."
+  },
+  "features": {
+    "title": "Key Features",
+    "items": [
+      {
+        "icon": "lock",
+        "title": "End-to-End Encryption",
+        "description": "All messages are encrypted using AES-256-GCM encryption, ensuring your conversations remain private and secure."
+      },
+      {
+        "icon": "github",
+        "title": "GitHub Integration",
+        "description": "Seamlessly authenticate with your GitHub account and connect with your repositories and teams."
+      },
+      {
+        "icon": "message",
+        "title": "Real-Time Messaging",
+        "description": "Send and receive messages instantly with real-time updates and notifications."
+      },
+      {
+        "icon": "users",
+        "title": "Repository Conversations",
+        "description": "Organize conversations around your repositories and collaborate with your team in context."
+      },
+      {
+        "icon": "shield",
+        "title": "Privacy Focused",
+        "description": "We don't sell your data. Your privacy is our priority, with full GDPR and CCPA compliance."
+      },
+      {
+        "icon": "zap",
+        "title": "Developer-Friendly",
+        "description": "Built by developers, for developers, with a focus on productivity and ease of use."
+      }
+    ]
+  },
+  "legal": {
+    "title": "Before You Get Started",
+    "description": "Please review and accept our terms to continue using snakecase.sh.",
+    "termsOfService": {
+      "label": "I have read and agree to the Terms of Service",
+      "required": true,
+      "linkText": "Read Terms of Service",
+      "linkUrl": "/legal/terms-of-service",
+      "summary": "By using snakecase.sh, you agree to our terms including user eligibility (13+ years), acceptable use policies, and our rights to moderate content and terminate accounts for violations."
+    },
+    "privacyPolicy": {
+      "label": "I have read and agree to the Privacy Policy",
+      "required": true,
+      "linkText": "Read Privacy Policy",
+      "linkUrl": "/legal/privacy-policy",
+      "summary": "We collect your GitHub profile information and message data. All messages are encrypted with AES-256-GCM. We don't sell your data and comply with GDPR and CCPA regulations."
+    },
+    "communityGuidelines": {
+      "label": "I will follow the Community Guidelines",
+      "required": true,
+      "linkText": "Read Community Guidelines",
+      "linkUrl": "/legal/community-guidelines",
+      "summary": "Our community values respect, inclusivity, and collaboration. Harassment, spam, illegal content, and violations may result in warnings, temporary restrictions (jail), or permanent bans."
+    }
+  },
+  "communityGuidelines": {
+    "title": "Community Guidelines Summary",
+    "description": "Help us maintain a safe and welcoming community for everyone.",
+    "rules": [
+      {
+        "icon": "heart",
+        "title": "Be Respectful",
+        "description": "Treat all users with kindness and courtesy. Use welcoming language and respect different viewpoints."
+      },
+      {
+        "icon": "shield-x",
+        "title": "No Harassment",
+        "description": "Zero tolerance for harassment, hate speech, discrimination, threats, or personal attacks of any kind."
+      },
+      {
+        "icon": "mail-x",
+        "title": "No Spam",
+        "description": "Don't send repetitive messages, unsolicited advertising, phishing attempts, or automated bot activity."
+      },
+      {
+        "icon": "alert-triangle",
+        "title": "No Illegal Content",
+        "description": "Strictly prohibited: illegal activities, violence, child exploitation, fraud, copyright violations, or harmful content."
+      },
+      {
+        "icon": "flag",
+        "title": "Report Violations",
+        "description": "Use the report button or email abuse@snakecase.sh to report violations. We treat all reports confidentially."
+      },
+      {
+        "icon": "alert-circle",
+        "title": "Enforcement",
+        "description": "Violations may result in warnings, temporary restrictions (jail), or permanent account bans depending on severity."
+      }
+    ],
+    "enforcement": {
+      "title": "How We Enforce Guidelines",
+      "levels": [
+        {
+          "level": "warning",
+          "title": "Warning",
+          "description": "First-time or minor violations typically receive a formal warning notification.",
+          "icon": "alert-circle",
+          "color": "yellow"
+        },
+        {
+          "level": "jail",
+          "title": "Jail (Temporary Restriction)",
+          "description": "Moderate violations or repeated minor violations result in temporary account suspension (24 hours to 30 days).",
+          "icon": "lock",
+          "color": "orange"
+        },
+        {
+          "level": "ban",
+          "title": "Ban (Permanent Termination)",
+          "description": "Severe violations result in permanent account termination with all access revoked.",
+          "icon": "x-circle",
+          "color": "red"
+        }
+      ]
+    }
+  },
+  "dataAndPrivacy": {
+    "title": "Your Data & Privacy",
+    "items": [
+      {
+        "question": "What data do we collect?",
+        "answer": "We collect your GitHub profile information (username, email, avatar), message content, and basic usage data to provide and improve our service."
+      },
+      {
+        "question": "How are messages encrypted?",
+        "answer": "All messages are encrypted using AES-256-GCM encryption, a military-grade encryption standard. We cannot read your encrypted messages."
+      },
+      {
+        "question": "Do you sell my data?",
+        "answer": "No. We never sell, rent, or trade your personal information to third parties for marketing purposes."
+      },
+      {
+        "question": "Can I export or delete my data?",
+        "answer": "Yes. You have the right to export your data in a machine-readable format and request deletion of your account and data at any time."
+      },
+      {
+        "question": "Are you GDPR/CCPA compliant?",
+        "answer": "Yes. We fully comply with GDPR (for European users) and CCPA (for California residents), giving you control over your personal information."
+      },
+      {
+        "question": "What cookies do you use?",
+        "answer": "We use essential cookies for authentication and session management, analytics cookies to improve our service, and preference cookies to remember your settings."
+      }
+    ]
+  },
+  "acceptanceScreen": {
+    "title": "Ready to Get Started?",
+    "description": "By clicking \"I Agree and Continue\", you confirm that you:",
+    "confirmations": [
+      "Are at least 13 years of age (or have parental consent if under 18)",
+      "Have read and agree to the Terms of Service",
+      "Have read and agree to the Privacy Policy",
+      "Will follow the Community Guidelines",
+      "Understand that violations may result in account restrictions or termination"
+    ],
+    "buttons": {
+      "agree": {
+        "text": "I Agree and Continue",
+        "ariaLabel": "Accept terms and continue to snakecase.sh"
+      },
+      "decline": {
+        "text": "Decline",
+        "ariaLabel": "Decline terms and exit"
+      },
+      "readLater": {
+        "text": "I'll Read These Later",
+        "ariaLabel": "Skip for now (you'll be prompted again)"
+      }
+    },
+    "footer": {
+      "text": "By continuing, you agree to our legal terms and policies.",
+      "links": [
+        {
+          "text": "Terms of Service",
+          "url": "/legal/terms-of-service"
+        },
+        {
+          "text": "Privacy Policy",
+          "url": "/legal/privacy-policy"
+        },
+        {
+          "text": "Community Guidelines",
+          "url": "/legal/community-guidelines"
+        }
+      ]
+    }
+  },
+  "ageVerification": {
+    "title": "Age Verification",
+    "description": "To use snakecase.sh, you must meet our age requirements.",
+    "question": "Are you at least 13 years of age?",
+    "options": {
+      "yes": {
+        "text": "Yes, I am 13 or older",
+        "value": true
+      },
+      "no": {
+        "text": "No, I am under 13",
+        "value": false
+      }
+    },
+    "underageMessage": {
+      "title": "Age Requirement Not Met",
+      "description": "We're sorry, but you must be at least 13 years old to use snakecase.sh. This is required by law to protect children's privacy online.",
+      "contactInfo": "If you believe this is an error, please contact us at support@snakecase.sh"
+    },
+    "parentalConsent": {
+      "title": "Parental Consent Required",
+      "description": "If you are between 13 and 18 years of age, you need parental or guardian consent to use snakecase.sh.",
+      "checkbox": "I have obtained consent from my parent or legal guardian to use this service",
+      "required": true
+    }
+  },
+  "notifications": {
+    "title": "Stay Updated",
+    "description": "Choose how you'd like to receive updates and notifications.",
+    "options": [
+      {
+        "id": "email_updates",
+        "label": "Email Updates",
+        "description": "Receive important service updates and announcements",
+        "default": true,
+        "required": true
+      },
+      {
+        "id": "security_alerts",
+        "label": "Security Alerts",
+        "description": "Get notified about security issues and suspicious activity",
+        "default": true,
+        "required": true
+      },
+      {
+        "id": "product_updates",
+        "label": "Product Updates",
+        "description": "Learn about new features and improvements",
+        "default": false,
+        "required": false
+      },
+      {
+        "id": "marketing",
+        "label": "Marketing Communications",
+        "description": "Receive tips, best practices, and special offers",
+        "default": false,
+        "required": false
+      }
+    ],
+    "note": "You can change these preferences at any time in your account settings."
+  },
+  "quickStart": {
+    "title": "Quick Start Guide",
+    "description": "Get the most out of snakecase.sh with these quick tips.",
+    "steps": [
+      {
+        "number": 1,
+        "title": "Complete Your Profile",
+        "description": "Your GitHub profile is automatically imported. Review and update your preferences.",
+        "icon": "user"
+      },
+      {
+        "number": 2,
+        "title": "Start a Conversation",
+        "description": "Search for repositories or users to start messaging. All messages are encrypted by default.",
+        "icon": "message-circle"
+      },
+      {
+        "number": 3,
+        "title": "Organize Your Conversations",
+        "description": "Create channels, organize by repository, and manage your communication efficiently.",
+        "icon": "folder"
+      },
+      {
+        "number": 4,
+        "title": "Invite Your Team",
+        "description": "Share snakecase.sh with your team members and collaborators to streamline communication.",
+        "icon": "users"
+      }
+    ],
+    "ctaButton": {
+      "text": "Start Messaging",
+      "ariaLabel": "Continue to snakecase.sh messaging"
+    }
+  },
+  "support": {
+    "title": "Need Help?",
+    "description": "We're here to help you get started.",
+    "resources": [
+      {
+        "title": "Help Center",
+        "description": "Browse our comprehensive help documentation",
+        "url": "https://help.snakecase.sh",
+        "icon": "book"
+      },
+      {
+        "title": "Contact Support",
+        "description": "Get in touch with our support team",
+        "url": "mailto:support@snakecase.sh",
+        "icon": "mail"
+      },
+      {
+        "title": "Community Forum",
+        "description": "Connect with other users and share tips",
+        "url": "https://community.snakecase.sh",
+        "icon": "users"
+      },
+      {
+        "title": "Report Issues",
+        "description": "Report bugs, abuse, or security issues",
+        "url": "mailto:abuse@snakecase.sh",
+        "icon": "flag"
+      }
+    ]
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-12-29",
+    "languages": ["en"],
+    "requiredAgreements": ["termsOfService", "privacyPolicy", "communityGuidelines"],
+    "minimumAge": 13,
+    "parentalConsentAge": 18,
+    "schemaVersion": "1.0"
+  }
+}
