@@ -61,3 +61,24 @@ export const createCodeBlockValidator = (plan: 'free' | 'pro' | 'team') => {
     message: `Code block exceeds ${limit} character limit for ${plan} plan`,
   });
 };
+
+export const savedMessageSchema = z.object({
+  id: z.string().uuid(),
+  userId: z.string().uuid(),
+  messageId: z.string().uuid(),
+  conversationId: z.string().uuid(),
+  savedAt: z.date(),
+  note: z.string().max(500).nullable(),
+  tags: z.array(z.string().min(1).max(50)),
+  metadata: z.record(z.unknown()),
+});
+
+export const pinnedMessageSchema = z.object({
+  id: z.string().uuid(),
+  messageId: z.string().uuid(),
+  conversationId: z.string().uuid(),
+  pinnedById: z.string().uuid(),
+  pinnedAt: z.date(),
+  reason: z.string().max(200).nullable(),
+  position: z.number().int().nonnegative(),
+});

@@ -50,3 +50,48 @@ export interface ConversationMember {
   lastReadSeq: number;
   mutedUntil: Date | null;
 }
+
+export interface GroupChatSettings {
+  conversationId: string;
+  allowMemberInvites: boolean;
+  onlyAdminCanPost: boolean;
+  onlyAdminCanPin: boolean;
+  allowReactions: boolean;
+  allowThreads: boolean;
+  allowFileSharing: boolean;
+  maxMembers: number;
+  description: string | null;
+  isPublic: boolean;
+  joinLink: string | null;
+  joinLinkExpiresAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface GroupChatMember extends ConversationMember {
+  role: 'owner' | 'admin' | 'member';
+  permissions: GroupChatPermissions;
+  nickname: string | null;
+  invitedById: string | null;
+  leftAt: Date | null;
+}
+
+export interface GroupChatPermissions {
+  canInviteMembers: boolean;
+  canRemoveMembers: boolean;
+  canPinMessages: boolean;
+  canEditSettings: boolean;
+  canManageRoles: boolean;
+  canDeleteMessages: boolean;
+}
+
+export interface GroupChatInvite {
+  id: string;
+  conversationId: string;
+  invitedUserId: string;
+  invitedById: string;
+  status: 'pending' | 'accepted' | 'declined' | 'expired';
+  expiresAt: Date;
+  createdAt: Date;
+  respondedAt: Date | null;
+}

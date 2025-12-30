@@ -21,8 +21,13 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var index_exports = {};
 __export(index_exports, {
   ERROR_CODES: () => ERROR_CODES,
+  OnboardingProgressSchema: () => OnboardingProgressSchema,
+  OnboardingStatusSchema: () => OnboardingStatusSchema,
+  OnboardingStep: () => OnboardingStep,
+  OnboardingStepSchema: () => OnboardingStepSchema,
   PLAN_LIMITS: () => PLAN_LIMITS,
   SOCKET_EVENTS: () => SOCKET_EVENTS,
+  TermsAcceptanceRequestSchema: () => TermsAcceptanceRequestSchema,
   channelMemberSchema: () => channelMemberSchema,
   channelSchema: () => channelSchema,
   conversationMemberSchema: () => conversationMemberSchema,
@@ -37,15 +42,21 @@ __export(index_exports, {
   formatMessageTimestamp: () => formatMessageTimestamp,
   formatRelativeTime: () => formatRelativeTime,
   formatShortDate: () => formatShortDate,
+  groupChatInviteSchema: () => groupChatInviteSchema,
+  groupChatMemberSchema: () => groupChatMemberSchema,
+  groupChatPermissionsSchema: () => groupChatPermissionsSchema,
+  groupChatSettingsSchema: () => groupChatSettingsSchema,
   groupConversationSchema: () => groupConversationSchema,
   messageAttachmentSchema: () => messageAttachmentSchema,
   messageDraftSchema: () => messageDraftSchema,
   messageSchema: () => messageSchema,
   notificationSchema: () => notificationSchema,
   notificationSettingsSchema: () => notificationSettingsSchema,
+  pinnedMessageSchema: () => pinnedMessageSchema,
   prRoomConversationSchema: () => prRoomConversationSchema,
   reactionGroupSchema: () => reactionGroupSchema,
   reactionSchema: () => reactionSchema,
+  savedMessageSchema: () => savedMessageSchema,
   slugify: () => slugify,
   truncate: () => truncate,
   truncateWords: () => truncateWords,
@@ -57,6 +68,17 @@ __export(index_exports, {
   workspaceSchema: () => workspaceSchema
 });
 module.exports = __toCommonJS(index_exports);
+
+// src/types/onboarding.ts
+var OnboardingStep = /* @__PURE__ */ ((OnboardingStep2) => {
+  OnboardingStep2["TERMS_ACCEPTANCE"] = "terms_acceptance";
+  OnboardingStep2["PROFILE_SETUP"] = "profile_setup";
+  OnboardingStep2["WORKSPACE_CREATION"] = "workspace_creation";
+  OnboardingStep2["CHANNEL_CREATION"] = "channel_creation";
+  OnboardingStep2["INVITE_TEAM"] = "invite_team";
+  OnboardingStep2["COMPLETED"] = "completed";
+  return OnboardingStep2;
+})(OnboardingStep || {});
 
 // src/validators/user.ts
 var import_zod = require("zod");
@@ -176,6 +198,47 @@ var conversationMemberSchema = import_zod4.z.object({
   lastReadSeq: import_zod4.z.number().int().nonnegative(),
   mutedUntil: import_zod4.z.date().nullable()
 });
+var groupChatSettingsSchema = import_zod4.z.object({
+  conversationId: import_zod4.z.string().uuid(),
+  allowMemberInvites: import_zod4.z.boolean(),
+  onlyAdminCanPost: import_zod4.z.boolean(),
+  onlyAdminCanPin: import_zod4.z.boolean(),
+  allowReactions: import_zod4.z.boolean(),
+  allowThreads: import_zod4.z.boolean(),
+  allowFileSharing: import_zod4.z.boolean(),
+  maxMembers: import_zod4.z.number().int().positive().max(1e3),
+  description: import_zod4.z.string().max(500).nullable(),
+  isPublic: import_zod4.z.boolean(),
+  joinLink: import_zod4.z.string().nullable(),
+  joinLinkExpiresAt: import_zod4.z.date().nullable(),
+  createdAt: import_zod4.z.date(),
+  updatedAt: import_zod4.z.date()
+});
+var groupChatPermissionsSchema = import_zod4.z.object({
+  canInviteMembers: import_zod4.z.boolean(),
+  canRemoveMembers: import_zod4.z.boolean(),
+  canPinMessages: import_zod4.z.boolean(),
+  canEditSettings: import_zod4.z.boolean(),
+  canManageRoles: import_zod4.z.boolean(),
+  canDeleteMessages: import_zod4.z.boolean()
+});
+var groupChatMemberSchema = conversationMemberSchema.extend({
+  role: import_zod4.z.enum(["owner", "admin", "member"]),
+  permissions: groupChatPermissionsSchema,
+  nickname: import_zod4.z.string().min(1).max(50).nullable(),
+  invitedById: import_zod4.z.string().uuid().nullable(),
+  leftAt: import_zod4.z.date().nullable()
+});
+var groupChatInviteSchema = import_zod4.z.object({
+  id: import_zod4.z.string().uuid(),
+  conversationId: import_zod4.z.string().uuid(),
+  invitedUserId: import_zod4.z.string().uuid(),
+  invitedById: import_zod4.z.string().uuid(),
+  status: import_zod4.z.enum(["pending", "accepted", "declined", "expired"]),
+  expiresAt: import_zod4.z.date(),
+  createdAt: import_zod4.z.date(),
+  respondedAt: import_zod4.z.date().nullable()
+});
 
 // src/validators/message.ts
 var import_zod5 = require("zod");
@@ -231,6 +294,25 @@ var createCodeBlockValidator = (plan) => {
     message: `Code block exceeds ${limit} character limit for ${plan} plan`
   });
 };
+var savedMessageSchema = import_zod5.z.object({
+  id: import_zod5.z.string().uuid(),
+  userId: import_zod5.z.string().uuid(),
+  messageId: import_zod5.z.string().uuid(),
+  conversationId: import_zod5.z.string().uuid(),
+  savedAt: import_zod5.z.date(),
+  note: import_zod5.z.string().max(500).nullable(),
+  tags: import_zod5.z.array(import_zod5.z.string().min(1).max(50)),
+  metadata: import_zod5.z.record(import_zod5.z.unknown())
+});
+var pinnedMessageSchema = import_zod5.z.object({
+  id: import_zod5.z.string().uuid(),
+  messageId: import_zod5.z.string().uuid(),
+  conversationId: import_zod5.z.string().uuid(),
+  pinnedById: import_zod5.z.string().uuid(),
+  pinnedAt: import_zod5.z.date(),
+  reason: import_zod5.z.string().max(200).nullable(),
+  position: import_zod5.z.number().int().nonnegative()
+});
 
 // src/validators/reaction.ts
 var import_zod6 = require("zod");
@@ -273,6 +355,48 @@ var notificationSettingsSchema = import_zod7.z.object({
   notifyOnReactions: import_zod7.z.boolean(),
   mutedConversationIds: import_zod7.z.array(import_zod7.z.string().uuid()),
   updatedAt: import_zod7.z.date()
+});
+
+// src/validators/onboarding.ts
+var import_zod8 = require("zod");
+var OnboardingStepSchema = import_zod8.z.enum([
+  "terms_acceptance",
+  "profile_setup",
+  "workspace_creation",
+  "channel_creation",
+  "invite_team",
+  "completed"
+]);
+var OnboardingStatusSchema = import_zod8.z.object({
+  userId: import_zod8.z.string(),
+  currentStep: OnboardingStepSchema,
+  completedSteps: import_zod8.z.array(OnboardingStepSchema),
+  termsAcceptedAt: import_zod8.z.date().nullable(),
+  profileCompletedAt: import_zod8.z.date().nullable(),
+  workspaceCreatedAt: import_zod8.z.date().nullable(),
+  channelCreatedAt: import_zod8.z.date().nullable(),
+  teamInvitedAt: import_zod8.z.date().nullable(),
+  completedAt: import_zod8.z.date().nullable(),
+  skippedSteps: import_zod8.z.array(OnboardingStepSchema),
+  metadata: import_zod8.z.record(import_zod8.z.unknown()),
+  createdAt: import_zod8.z.date(),
+  updatedAt: import_zod8.z.date()
+});
+var TermsAcceptanceRequestSchema = import_zod8.z.object({
+  userId: import_zod8.z.string(),
+  termsVersion: import_zod8.z.string(),
+  privacyPolicyVersion: import_zod8.z.string(),
+  acceptedAt: import_zod8.z.date(),
+  ipAddress: import_zod8.z.string().nullable(),
+  userAgent: import_zod8.z.string().nullable()
+});
+var OnboardingProgressSchema = import_zod8.z.object({
+  userId: import_zod8.z.string(),
+  totalSteps: import_zod8.z.number(),
+  completedSteps: import_zod8.z.number(),
+  currentStep: OnboardingStepSchema,
+  percentageComplete: import_zod8.z.number().min(0).max(100),
+  isComplete: import_zod8.z.boolean()
 });
 
 // src/constants/plans.ts
@@ -525,8 +649,13 @@ function countWords(text) {
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ERROR_CODES,
+  OnboardingProgressSchema,
+  OnboardingStatusSchema,
+  OnboardingStep,
+  OnboardingStepSchema,
   PLAN_LIMITS,
   SOCKET_EVENTS,
+  TermsAcceptanceRequestSchema,
   channelMemberSchema,
   channelSchema,
   conversationMemberSchema,
@@ -541,15 +670,21 @@ function countWords(text) {
   formatMessageTimestamp,
   formatRelativeTime,
   formatShortDate,
+  groupChatInviteSchema,
+  groupChatMemberSchema,
+  groupChatPermissionsSchema,
+  groupChatSettingsSchema,
   groupConversationSchema,
   messageAttachmentSchema,
   messageDraftSchema,
   messageSchema,
   notificationSchema,
   notificationSettingsSchema,
+  pinnedMessageSchema,
   prRoomConversationSchema,
   reactionGroupSchema,
   reactionSchema,
+  savedMessageSchema,
   slugify,
   truncate,
   truncateWords,

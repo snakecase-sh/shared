@@ -51,3 +51,48 @@ export const conversationMemberSchema = z.object({
   lastReadSeq: z.number().int().nonnegative(),
   mutedUntil: z.date().nullable(),
 });
+
+export const groupChatSettingsSchema = z.object({
+  conversationId: z.string().uuid(),
+  allowMemberInvites: z.boolean(),
+  onlyAdminCanPost: z.boolean(),
+  onlyAdminCanPin: z.boolean(),
+  allowReactions: z.boolean(),
+  allowThreads: z.boolean(),
+  allowFileSharing: z.boolean(),
+  maxMembers: z.number().int().positive().max(1000),
+  description: z.string().max(500).nullable(),
+  isPublic: z.boolean(),
+  joinLink: z.string().nullable(),
+  joinLinkExpiresAt: z.date().nullable(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
+
+export const groupChatPermissionsSchema = z.object({
+  canInviteMembers: z.boolean(),
+  canRemoveMembers: z.boolean(),
+  canPinMessages: z.boolean(),
+  canEditSettings: z.boolean(),
+  canManageRoles: z.boolean(),
+  canDeleteMessages: z.boolean(),
+});
+
+export const groupChatMemberSchema = conversationMemberSchema.extend({
+  role: z.enum(['owner', 'admin', 'member']),
+  permissions: groupChatPermissionsSchema,
+  nickname: z.string().min(1).max(50).nullable(),
+  invitedById: z.string().uuid().nullable(),
+  leftAt: z.date().nullable(),
+});
+
+export const groupChatInviteSchema = z.object({
+  id: z.string().uuid(),
+  conversationId: z.string().uuid(),
+  invitedUserId: z.string().uuid(),
+  invitedById: z.string().uuid(),
+  status: z.enum(['pending', 'accepted', 'declined', 'expired']),
+  expiresAt: z.date(),
+  createdAt: z.date(),
+  respondedAt: z.date().nullable(),
+});

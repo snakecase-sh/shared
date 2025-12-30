@@ -30,3 +30,24 @@ export interface MessageDraft {
   content: string;
   updatedAt: Date;
 }
+
+export interface SavedMessage {
+  id: string;
+  userId: string;
+  messageId: string;
+  conversationId: string;
+  savedAt: Date;
+  note: string | null;
+  tags: string[];
+  metadata: Record<string, unknown>;
+}
+
+export interface PinnedMessage {
+  id: string;
+  messageId: string;
+  conversationId: string;
+  pinnedById: string;
+  pinnedAt: Date;
+  reason: string | null;
+  position: number; // For ordering multiple pinned messages
+}
