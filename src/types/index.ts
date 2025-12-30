@@ -8,3 +8,5 @@ export * from './notification';
 export * from './socket';
 export * from './socket-helpers';
 export * from './api';
+export * from './encryption';
+export * from './admin';
