@@ -2450,6 +2450,106 @@ declare const GroupSchema: z.ZodObject<{
     } | null | undefined;
 }>;
 /**
+ * POST /workspaces - Create workspace
+ */
+declare const CreateWorkspaceRequestSchema: z.ZodObject<{
+    name: z.ZodString;
+    slug: z.ZodString;
+    githubOrgId: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    name: string;
+    slug: string;
+    githubOrgId?: string | undefined;
+}, {
+    name: string;
+    slug: string;
+    githubOrgId?: string | undefined;
+}>;
+/**
+ * POST /conversations - Create conversation
+ */
+declare const CreateConversationRequestSchema: z.ZodEffects<z.ZodObject<{
+    type: z.ZodEnum<["DM", "GROUP", "CHANNEL", "dm", "group", "channel"]>;
+    userIds: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
+    memberIds: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
+    workspaceId: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+    workspaceId?: string | undefined;
+    userIds?: string[] | undefined;
+    memberIds?: string[] | undefined;
+}, {
+    type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+    workspaceId?: string | undefined;
+    userIds?: string[] | undefined;
+    memberIds?: string[] | undefined;
+}>, {
+    type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+    workspaceId?: string | undefined;
+    userIds?: string[] | undefined;
+    memberIds?: string[] | undefined;
+}, {
+    type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+    workspaceId?: string | undefined;
+    userIds?: string[] | undefined;
+    memberIds?: string[] | undefined;
+}>;
+/**
+ * POST /conversations/:id/messages - Send message
+ */
+declare const SendMessageRequestSchema: z.ZodObject<{
+    content: z.ZodString;
+    type: z.ZodOptional<z.ZodEnum<["text", "code"]>>;
+    replyToId: z.ZodOptional<z.ZodString>;
+    mentions: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
+}, "strip", z.ZodTypeAny, {
+    content: string;
+    type?: "code" | "text" | undefined;
+    replyToId?: string | undefined;
+    mentions?: string[] | undefined;
+}, {
+    content: string;
+    type?: "code" | "text" | undefined;
+    replyToId?: string | undefined;
+    mentions?: string[] | undefined;
+}>;
+/**
+ * POST /conversations/:id/read - Mark as read
+ */
+declare const MarkAsReadRequestSchema: z.ZodObject<{
+    seq: z.ZodOptional<z.ZodNumber>;
+}, "strip", z.ZodTypeAny, {
+    seq?: number | undefined;
+}, {
+    seq?: number | undefined;
+}>;
+/**
+ * POST /statuses - Create status
+ */
+declare const CreateStatusRequestSchema: z.ZodObject<{
+    content: z.ZodString;
+    workspaceId: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    content: string;
+    workspaceId?: string | undefined;
+}, {
+    content: string;
+    workspaceId?: string | undefined;
+}>;
+/**
+ * POST /groups - Create group
+ */
+declare const CreateGroupRequestSchema: z.ZodObject<{
+    name: z.ZodString;
+    userIds: z.ZodArray<z.ZodString, "many">;
+}, "strip", z.ZodTypeAny, {
+    name: string;
+    userIds: string[];
+}, {
+    name: string;
+    userIds: string[];
+}>;
+/**
  * GET /workspaces
  * Backend returns: { workspaces: Workspace[] }
  */
@@ -4744,4 +4844,4 @@ declare function escapeHTML(text: string): string;
  */
 declare function countWords(text: string): number;
 
-export { type APIError, type APIResponse, type AddChannelMemberRequest, type AddConversationMemberRequest, type AddReactionRequest, type AddWorkspaceMemberRequest, type Admin2FARequest, type AdminLoginRequest, type AdminLoginResponse, type AdminUser, type ApiEndpoint, type AttachmentListResponse, type AuthErrorPayload, type AuthPayload, type AuthSuccessPayload, type BanUserRequest, type BaseConversation, type ChangePasswordRequest, type Channel, type ChannelCreatedPayload, type ChannelDeletedPayload, type ChannelListResponse, type ChannelMember, type ChannelMemberJoinedPayload, type ChannelMemberLeftPayload, type ChannelResponse, type ChannelUpdatedPayload, type ClientToServerEvents, type Conversation, type ConversationJoinPayload, type ConversationJoinedPayload, type ConversationLeavePayload, type ConversationLeftPayload, type ConversationListResponse, type ConversationMarkReadPayload, type ConversationMember, type ConversationResponse, ConversationSchema, type ConversationType, type ConversationUpdatedPayload, type CreateAttachmentRequest, type CreateAttachmentResponse, type CreateChannelRequest, CreateConversationResponseSchema, type CreateDMConversationRequest, type CreateGroupConversationRequest, CreateGroupResponseSchema, type CreateMessageRequest, type CreatePRRoomConversationRequest, type CreateSessionRequest, type CreateSessionResponse, CreateStatusCommentResponseSchema, CreateStatusResponseSchema, type CreateUserRequest, type CreateWorkspaceRequest, CreateWorkspaceResponseSchema, type DMConversation, type Disable2FARequest, ERROR_CODES, type Enable2FAResponse, type EncryptedField, type EncryptedMessage, type EncryptionConfig, type EncryptionStatus, type ErrorCode, GetConversationResponseSchema, GetConversationsResponseSchema, GetGroupResponseSchema, GetGroupsResponseSchema, GetMessagesResponseSchema, GetSavedMessagesResponseSchema, GetStatusCommentsResponseSchema, GetStatusFeedResponseSchema, GetWorkspaceResponseSchema, GetWorkspacesResponseSchema, type GitHubPRListResponse, type GitHubPRResponse, type GitHubRepoListResponse, type GitHubRepoResponse, type GroupChatInvite, type GroupChatMember, type GroupChatPermissions, type GroupChatSettings, type GroupConversation, GroupSchema, type JailUserRequest, type MarkConversationReadRequest, type MarkNotificationReadRequest, type Message, type MessageAttachment, type MessageCreatedPayload, type MessageDeletedPayload, type MessageDraft, type MessageDraftResponse, type MessageEditedPayload, type MessageListResponse, type MessageNewPayload, type MessageResponse, MessageSchema, type MessageUpdatedPayload, type ModerationAction, type ModerationStatus, type MuteConversationRequest, type Notification, type NotificationListResponse, type NotificationNewPayload, type NotificationReadPayload, type NotificationResponse, type NotificationSettings, type NotificationType, type OnboardingProgress, OnboardingProgressSchema, type OnboardingStatus, OnboardingStatusSchema, OnboardingStep, OnboardingStepSchema, PLAN_LIMITS, type PRRoomConversation, type PaginatedResponse, type PaginationParams, type PinnedMessage, type PlanType, type PresenceChangedPayload, type PresenceUpdatePayload, type Reaction, type ReactionAddedPayload, type ReactionGroup, type ReactionListResponse, type ReactionRemovedPayload, type RegenerateBackupCodesRequest, type RegenerateBackupCodesResponse, ResponseSchemas, SOCKET_EVENTS, type SaveMessageDraftRequest, type SavedMessage, type SearchMessagesRequest, type SearchMessagesResponse, SearchUsersResponseSchema, SendMessageResponseSchema, type ServerToClientEvents, type Session, type SessionListResponse, type SessionResponse, type SocketEvent, type SocketEventPayload, StatusSchema, type TermsAcceptanceRequest, TermsAcceptanceRequestSchema, type TwoFactorSetup, type TypedClientSocket, type TypedServer, type TypedServerSocket, type TypingStartPayload, type TypingStopPayload, type UpdateChannelRequest, type UpdateConversationRequest, type UpdateMessageRequest, type UpdatePresenceRequest, type UpdateUserRequest, type UpdateWorkspaceMemberRequest, type UpdateWorkspaceRequest, type User, type UserEntitlements, type UserListResponse, type UserPresence, type UserResponse, UserSchema, type UserStatsResponse, type WarnUserRequest, type Workspace, type WorkspaceChannelConversation, type WorkspaceListResponse, type WorkspaceMember, type WorkspaceMemberJoinedPayload, type WorkspaceMemberLeftPayload, type WorkspaceMemberRoleChangedPayload, type WorkspaceResponse, WorkspaceSchema, type WorkspaceStatsResponse, type WorkspaceUpdatedPayload, channelMemberSchema, channelSchema, conversationMemberSchema, conversationSchema, countWords, createCodeBlockValidator, createMessageContentValidator, dmConversationSchema, escapeHTML, extractMentions, formatFullDateTime, formatMessageTimestamp, formatRelativeTime, formatShortDate, groupChatInviteSchema, groupChatMemberSchema, groupChatPermissionsSchema, groupChatSettingsSchema, groupConversationSchema, messageAttachmentSchema, messageDraftSchema, messageSchema, notificationSchema, notificationSettingsSchema, pinnedMessageSchema, prRoomConversationSchema, reactionGroupSchema, reactionSchema, savedMessageSchema, slugify, truncate, truncateWords, userPresenceSchema, userSchema, usernameSchema, validateResponse, withValidation, workspaceChannelConversationSchema, workspaceMemberSchema, workspaceSchema };
+export { type APIError, type APIResponse, type AddChannelMemberRequest, type AddConversationMemberRequest, type AddReactionRequest, type AddWorkspaceMemberRequest, type Admin2FARequest, type AdminLoginRequest, type AdminLoginResponse, type AdminUser, type ApiEndpoint, type AttachmentListResponse, type AuthErrorPayload, type AuthPayload, type AuthSuccessPayload, type BanUserRequest, type BaseConversation, type ChangePasswordRequest, type Channel, type ChannelCreatedPayload, type ChannelDeletedPayload, type ChannelListResponse, type ChannelMember, type ChannelMemberJoinedPayload, type ChannelMemberLeftPayload, type ChannelResponse, type ChannelUpdatedPayload, type ClientToServerEvents, type Conversation, type ConversationJoinPayload, type ConversationJoinedPayload, type ConversationLeavePayload, type ConversationLeftPayload, type ConversationListResponse, type ConversationMarkReadPayload, type ConversationMember, type ConversationResponse, ConversationSchema, type ConversationType, type ConversationUpdatedPayload, type CreateAttachmentRequest, type CreateAttachmentResponse, type CreateChannelRequest, CreateConversationRequestSchema, CreateConversationResponseSchema, type CreateDMConversationRequest, type CreateGroupConversationRequest, CreateGroupRequestSchema, CreateGroupResponseSchema, type CreateMessageRequest, type CreatePRRoomConversationRequest, type CreateSessionRequest, type CreateSessionResponse, CreateStatusCommentResponseSchema, CreateStatusRequestSchema, CreateStatusResponseSchema, type CreateUserRequest, type CreateWorkspaceRequest, CreateWorkspaceRequestSchema, CreateWorkspaceResponseSchema, type DMConversation, type Disable2FARequest, ERROR_CODES, type Enable2FAResponse, type EncryptedField, type EncryptedMessage, type EncryptionConfig, type EncryptionStatus, type ErrorCode, GetConversationResponseSchema, GetConversationsResponseSchema, GetGroupResponseSchema, GetGroupsResponseSchema, GetMessagesResponseSchema, GetSavedMessagesResponseSchema, GetStatusCommentsResponseSchema, GetStatusFeedResponseSchema, GetWorkspaceResponseSchema, GetWorkspacesResponseSchema, type GitHubPRListResponse, type GitHubPRResponse, type GitHubRepoListResponse, type GitHubRepoResponse, type GroupChatInvite, type GroupChatMember, type GroupChatPermissions, type GroupChatSettings, type GroupConversation, GroupSchema, type JailUserRequest, MarkAsReadRequestSchema, type MarkConversationReadRequest, type MarkNotificationReadRequest, type Message, type MessageAttachment, type MessageCreatedPayload, type MessageDeletedPayload, type MessageDraft, type MessageDraftResponse, type MessageEditedPayload, type MessageListResponse, type MessageNewPayload, type MessageResponse, MessageSchema, type MessageUpdatedPayload, type ModerationAction, type ModerationStatus, type MuteConversationRequest, type Notification, type NotificationListResponse, type NotificationNewPayload, type NotificationReadPayload, type NotificationResponse, type NotificationSettings, type NotificationType, type OnboardingProgress, OnboardingProgressSchema, type OnboardingStatus, OnboardingStatusSchema, OnboardingStep, OnboardingStepSchema, PLAN_LIMITS, type PRRoomConversation, type PaginatedResponse, type PaginationParams, type PinnedMessage, type PlanType, type PresenceChangedPayload, type PresenceUpdatePayload, type Reaction, type ReactionAddedPayload, type ReactionGroup, type ReactionListResponse, type ReactionRemovedPayload, type RegenerateBackupCodesRequest, type RegenerateBackupCodesResponse, ResponseSchemas, SOCKET_EVENTS, type SaveMessageDraftRequest, type SavedMessage, type SearchMessagesRequest, type SearchMessagesResponse, SearchUsersResponseSchema, SendMessageRequestSchema, SendMessageResponseSchema, type ServerToClientEvents, type Session, type SessionListResponse, type SessionResponse, type SocketEvent, type SocketEventPayload, StatusSchema, type TermsAcceptanceRequest, TermsAcceptanceRequestSchema, type TwoFactorSetup, type TypedClientSocket, type TypedServer, type TypedServerSocket, type TypingStartPayload, type TypingStopPayload, type UpdateChannelRequest, type UpdateConversationRequest, type UpdateMessageRequest, type UpdatePresenceRequest, type UpdateUserRequest, type UpdateWorkspaceMemberRequest, type UpdateWorkspaceRequest, type User, type UserEntitlements, type UserListResponse, type UserPresence, type UserResponse, UserSchema, type UserStatsResponse, type WarnUserRequest, type Workspace, type WorkspaceChannelConversation, type WorkspaceListResponse, type WorkspaceMember, type WorkspaceMemberJoinedPayload, type WorkspaceMemberLeftPayload, type WorkspaceMemberRoleChangedPayload, type WorkspaceResponse, WorkspaceSchema, type WorkspaceStatsResponse, type WorkspaceUpdatedPayload, channelMemberSchema, channelSchema, conversationMemberSchema, conversationSchema, countWords, createCodeBlockValidator, createMessageContentValidator, dmConversationSchema, escapeHTML, extractMentions, formatFullDateTime, formatMessageTimestamp, formatRelativeTime, formatShortDate, groupChatInviteSchema, groupChatMemberSchema, groupChatPermissionsSchema, groupChatSettingsSchema, groupConversationSchema, messageAttachmentSchema, messageDraftSchema, messageSchema, notificationSchema, notificationSettingsSchema, pinnedMessageSchema, prRoomConversationSchema, reactionGroupSchema, reactionSchema, savedMessageSchema, slugify, truncate, truncateWords, userPresenceSchema, userSchema, usernameSchema, validateResponse, withValidation, workspaceChannelConversationSchema, workspaceMemberSchema, workspaceSchema };

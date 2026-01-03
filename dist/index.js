@@ -401,6 +401,41 @@ var GroupSchema = z9.object({
   createdAt: z9.string(),
   updatedAt: z9.string().optional()
 });
+var CreateWorkspaceRequestSchema = z9.object({
+  name: z9.string().min(1).max(100),
+  slug: z9.string().min(1).max(50).regex(/^[a-z0-9-]+$/, {
+    message: "Slug must contain only lowercase letters, numbers, and hyphens"
+  }),
+  githubOrgId: z9.string().optional()
+});
+var CreateConversationRequestSchema = z9.object({
+  type: z9.enum(["DM", "GROUP", "CHANNEL", "dm", "group", "channel"]),
+  userIds: z9.array(z9.string()).min(1).optional(),
+  memberIds: z9.array(z9.string()).min(1).optional(),
+  // Alias for userIds
+  workspaceId: z9.string().optional()
+  // Ignored by backend
+}).refine((data) => data.userIds || data.memberIds, {
+  message: "Either userIds or memberIds must be provided"
+});
+var SendMessageRequestSchema = z9.object({
+  content: z9.string().min(1).max(1e4),
+  type: z9.enum(["text", "code"]).optional(),
+  replyToId: z9.string().optional(),
+  mentions: z9.array(z9.string()).optional()
+});
+var MarkAsReadRequestSchema = z9.object({
+  seq: z9.number().int().min(0).optional()
+  // Optional - if not provided, marks all as read
+});
+var CreateStatusRequestSchema = z9.object({
+  content: z9.string().min(1).max(500),
+  workspaceId: z9.string().optional()
+});
+var CreateGroupRequestSchema = z9.object({
+  name: z9.string().min(1).max(100),
+  userIds: z9.array(z9.string()).min(1)
+});
 var GetWorkspacesResponseSchema = z9.object({
   workspaces: z9.array(WorkspaceSchema)
 });
@@ -750,10 +785,14 @@ function countWords(text) {
 }
 export {
   ConversationSchema,
+  CreateConversationRequestSchema,
   CreateConversationResponseSchema,
+  CreateGroupRequestSchema,
   CreateGroupResponseSchema,
   CreateStatusCommentResponseSchema,
+  CreateStatusRequestSchema,
   CreateStatusResponseSchema,
+  CreateWorkspaceRequestSchema,
   CreateWorkspaceResponseSchema,
   ERROR_CODES,
   GetConversationResponseSchema,
@@ -767,6 +806,7 @@ export {
   GetWorkspaceResponseSchema,
   GetWorkspacesResponseSchema,
   GroupSchema,
+  MarkAsReadRequestSchema,
   MessageSchema,
   OnboardingProgressSchema,
   OnboardingStatusSchema,
@@ -776,6 +816,7 @@ export {
   ResponseSchemas,
   SOCKET_EVENTS,
   SearchUsersResponseSchema,
+  SendMessageRequestSchema,
   SendMessageResponseSchema,
   StatusSchema,
   TermsAcceptanceRequestSchema,

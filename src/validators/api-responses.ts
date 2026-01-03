@@ -92,6 +92,67 @@ export const GroupSchema = z.object({
 });
 
 // ============================================================================
+// API REQUEST SCHEMAS
+// These are the EXACT shapes expected by backend endpoints
+// ============================================================================
+
+/**
+ * POST /workspaces - Create workspace
+ */
+export const CreateWorkspaceRequestSchema = z.object({
+  name: z.string().min(1).max(100),
+  slug: z.string().min(1).max(50).regex(/^[a-z0-9-]+$/, {
+    message: 'Slug must contain only lowercase letters, numbers, and hyphens',
+  }),
+  githubOrgId: z.string().optional(),
+});
+
+/**
+ * POST /conversations - Create conversation
+ */
+export const CreateConversationRequestSchema = z.object({
+  type: z.enum(['DM', 'GROUP', 'CHANNEL', 'dm', 'group', 'channel']),
+  userIds: z.array(z.string()).min(1).optional(),
+  memberIds: z.array(z.string()).min(1).optional(), // Alias for userIds
+  workspaceId: z.string().optional(), // Ignored by backend
+}).refine((data) => data.userIds || data.memberIds, {
+  message: 'Either userIds or memberIds must be provided',
+});
+
+/**
+ * POST /conversations/:id/messages - Send message
+ */
+export const SendMessageRequestSchema = z.object({
+  content: z.string().min(1).max(10000),
+  type: z.enum(['text', 'code']).optional(),
+  replyToId: z.string().optional(),
+  mentions: z.array(z.string()).optional(),
+});
+
+/**
+ * POST /conversations/:id/read - Mark as read
+ */
+export const MarkAsReadRequestSchema = z.object({
+  seq: z.number().int().min(0).optional(), // Optional - if not provided, marks all as read
+});
+
+/**
+ * POST /statuses - Create status
+ */
+export const CreateStatusRequestSchema = z.object({
+  content: z.string().min(1).max(500),
+  workspaceId: z.string().optional(),
+});
+
+/**
+ * POST /groups - Create group
+ */
+export const CreateGroupRequestSchema = z.object({
+  name: z.string().min(1).max(100),
+  userIds: z.array(z.string()).min(1),
+});
+
+// ============================================================================
 // API RESPONSE SCHEMAS
 // These are the EXACT shapes returned by backend endpoints
 // ============================================================================

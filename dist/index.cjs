@@ -21,10 +21,14 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var index_exports = {};
 __export(index_exports, {
   ConversationSchema: () => ConversationSchema,
+  CreateConversationRequestSchema: () => CreateConversationRequestSchema,
   CreateConversationResponseSchema: () => CreateConversationResponseSchema,
+  CreateGroupRequestSchema: () => CreateGroupRequestSchema,
   CreateGroupResponseSchema: () => CreateGroupResponseSchema,
   CreateStatusCommentResponseSchema: () => CreateStatusCommentResponseSchema,
+  CreateStatusRequestSchema: () => CreateStatusRequestSchema,
   CreateStatusResponseSchema: () => CreateStatusResponseSchema,
+  CreateWorkspaceRequestSchema: () => CreateWorkspaceRequestSchema,
   CreateWorkspaceResponseSchema: () => CreateWorkspaceResponseSchema,
   ERROR_CODES: () => ERROR_CODES,
   GetConversationResponseSchema: () => GetConversationResponseSchema,
@@ -38,6 +42,7 @@ __export(index_exports, {
   GetWorkspaceResponseSchema: () => GetWorkspaceResponseSchema,
   GetWorkspacesResponseSchema: () => GetWorkspacesResponseSchema,
   GroupSchema: () => GroupSchema,
+  MarkAsReadRequestSchema: () => MarkAsReadRequestSchema,
   MessageSchema: () => MessageSchema,
   OnboardingProgressSchema: () => OnboardingProgressSchema,
   OnboardingStatusSchema: () => OnboardingStatusSchema,
@@ -47,6 +52,7 @@ __export(index_exports, {
   ResponseSchemas: () => ResponseSchemas,
   SOCKET_EVENTS: () => SOCKET_EVENTS,
   SearchUsersResponseSchema: () => SearchUsersResponseSchema,
+  SendMessageRequestSchema: () => SendMessageRequestSchema,
   SendMessageResponseSchema: () => SendMessageResponseSchema,
   StatusSchema: () => StatusSchema,
   TermsAcceptanceRequestSchema: () => TermsAcceptanceRequestSchema,
@@ -498,6 +504,41 @@ var GroupSchema = import_zod9.z.object({
   createdAt: import_zod9.z.string(),
   updatedAt: import_zod9.z.string().optional()
 });
+var CreateWorkspaceRequestSchema = import_zod9.z.object({
+  name: import_zod9.z.string().min(1).max(100),
+  slug: import_zod9.z.string().min(1).max(50).regex(/^[a-z0-9-]+$/, {
+    message: "Slug must contain only lowercase letters, numbers, and hyphens"
+  }),
+  githubOrgId: import_zod9.z.string().optional()
+});
+var CreateConversationRequestSchema = import_zod9.z.object({
+  type: import_zod9.z.enum(["DM", "GROUP", "CHANNEL", "dm", "group", "channel"]),
+  userIds: import_zod9.z.array(import_zod9.z.string()).min(1).optional(),
+  memberIds: import_zod9.z.array(import_zod9.z.string()).min(1).optional(),
+  // Alias for userIds
+  workspaceId: import_zod9.z.string().optional()
+  // Ignored by backend
+}).refine((data) => data.userIds || data.memberIds, {
+  message: "Either userIds or memberIds must be provided"
+});
+var SendMessageRequestSchema = import_zod9.z.object({
+  content: import_zod9.z.string().min(1).max(1e4),
+  type: import_zod9.z.enum(["text", "code"]).optional(),
+  replyToId: import_zod9.z.string().optional(),
+  mentions: import_zod9.z.array(import_zod9.z.string()).optional()
+});
+var MarkAsReadRequestSchema = import_zod9.z.object({
+  seq: import_zod9.z.number().int().min(0).optional()
+  // Optional - if not provided, marks all as read
+});
+var CreateStatusRequestSchema = import_zod9.z.object({
+  content: import_zod9.z.string().min(1).max(500),
+  workspaceId: import_zod9.z.string().optional()
+});
+var CreateGroupRequestSchema = import_zod9.z.object({
+  name: import_zod9.z.string().min(1).max(100),
+  userIds: import_zod9.z.array(import_zod9.z.string()).min(1)
+});
 var GetWorkspacesResponseSchema = import_zod9.z.object({
   workspaces: import_zod9.z.array(WorkspaceSchema)
 });
@@ -848,10 +889,14 @@ function countWords(text) {
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ConversationSchema,
+  CreateConversationRequestSchema,
   CreateConversationResponseSchema,
+  CreateGroupRequestSchema,
   CreateGroupResponseSchema,
   CreateStatusCommentResponseSchema,
+  CreateStatusRequestSchema,
   CreateStatusResponseSchema,
+  CreateWorkspaceRequestSchema,
   CreateWorkspaceResponseSchema,
   ERROR_CODES,
   GetConversationResponseSchema,
@@ -865,6 +910,7 @@ function countWords(text) {
   GetWorkspaceResponseSchema,
   GetWorkspacesResponseSchema,
   GroupSchema,
+  MarkAsReadRequestSchema,
   MessageSchema,
   OnboardingProgressSchema,
   OnboardingStatusSchema,
@@ -874,6 +920,7 @@ function countWords(text) {
   ResponseSchemas,
   SOCKET_EVENTS,
   SearchUsersResponseSchema,
+  SendMessageRequestSchema,
   SendMessageResponseSchema,
   StatusSchema,
   TermsAcceptanceRequestSchema,
