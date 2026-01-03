@@ -1909,6 +1909,2691 @@ declare const OnboardingProgressSchema: z.ZodObject<{
     isComplete: boolean;
 }>;
 
+/**
+ * API Response Contracts
+ *
+ * These Zod schemas define the EXACT shape of API responses.
+ * Both frontend and backend MUST conform to these contracts.
+ *
+ * RULE: When a backend endpoint changes, update the schema here FIRST.
+ * RULE: Frontend should validate responses against these schemas in dev mode.
+ */
+
+declare const UserSchema: z.ZodObject<{
+    id: z.ZodString;
+    githubId: z.ZodOptional<z.ZodNumber>;
+    githubUsername: z.ZodString;
+    avatarUrl: z.ZodNullable<z.ZodString>;
+    displayName: z.ZodNullable<z.ZodString>;
+    email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+    isAdmin: z.ZodOptional<z.ZodBoolean>;
+    onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+    createdAt: z.ZodString;
+    updatedAt: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    id: string;
+    displayName: string | null;
+    createdAt: string;
+    avatarUrl: string | null;
+    githubUsername: string;
+    githubId?: number | undefined;
+    email?: string | null | undefined;
+    plan?: "free" | "pro" | undefined;
+    updatedAt?: string | undefined;
+    isAdmin?: boolean | undefined;
+    onboardingCompleted?: boolean | undefined;
+}, {
+    id: string;
+    displayName: string | null;
+    createdAt: string;
+    avatarUrl: string | null;
+    githubUsername: string;
+    githubId?: number | undefined;
+    email?: string | null | undefined;
+    plan?: "free" | "pro" | undefined;
+    updatedAt?: string | undefined;
+    isAdmin?: boolean | undefined;
+    onboardingCompleted?: boolean | undefined;
+}>;
+declare const WorkspaceSchema: z.ZodObject<{
+    id: z.ZodString;
+    slug: z.ZodString;
+    name: z.ZodString;
+    githubOrgId: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+    githubOrgLogin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    createdAt: z.ZodString;
+    updatedAt: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    id: string;
+    createdAt: string;
+    name: string;
+    slug: string;
+    updatedAt?: string | undefined;
+    githubOrgId?: number | null | undefined;
+    githubOrgLogin?: string | null | undefined;
+}, {
+    id: string;
+    createdAt: string;
+    name: string;
+    slug: string;
+    updatedAt?: string | undefined;
+    githubOrgId?: number | null | undefined;
+    githubOrgLogin?: string | null | undefined;
+}>;
+declare const ConversationSchema: z.ZodObject<{
+    id: z.ZodString;
+    workspaceId: z.ZodOptional<z.ZodString>;
+    type: z.ZodEnum<["channel", "dm", "group", "DM", "GROUP", "CHANNEL"]>;
+    name: z.ZodNullable<z.ZodString>;
+    topic: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    isPrivate: z.ZodOptional<z.ZodBoolean>;
+    createdAt: z.ZodString;
+    updatedAt: z.ZodOptional<z.ZodString>;
+    lastMessageAt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    unreadCount: z.ZodOptional<z.ZodNumber>;
+    members: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
+}, "strip", z.ZodTypeAny, {
+    id: string;
+    type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+    createdAt: string;
+    name: string | null;
+    workspaceId?: string | undefined;
+    updatedAt?: string | undefined;
+    topic?: string | null | undefined;
+    isPrivate?: boolean | undefined;
+    lastMessageAt?: string | null | undefined;
+    unreadCount?: number | undefined;
+    members?: any[] | undefined;
+}, {
+    id: string;
+    type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+    createdAt: string;
+    name: string | null;
+    workspaceId?: string | undefined;
+    updatedAt?: string | undefined;
+    topic?: string | null | undefined;
+    isPrivate?: boolean | undefined;
+    lastMessageAt?: string | null | undefined;
+    unreadCount?: number | undefined;
+    members?: any[] | undefined;
+}>;
+declare const MessageSchema: z.ZodObject<{
+    id: z.ZodString;
+    conversationId: z.ZodString;
+    userId: z.ZodString;
+    content: z.ZodString;
+    type: z.ZodOptional<z.ZodEnum<["text", "code", "system"]>>;
+    metadata: z.ZodOptional<z.ZodNullable<z.ZodRecord<z.ZodString, z.ZodAny>>>;
+    user: z.ZodOptional<z.ZodObject<{
+        id: z.ZodString;
+        githubId: z.ZodOptional<z.ZodNumber>;
+        githubUsername: z.ZodString;
+        avatarUrl: z.ZodNullable<z.ZodString>;
+        displayName: z.ZodNullable<z.ZodString>;
+        email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+        isAdmin: z.ZodOptional<z.ZodBoolean>;
+        onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    }, {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    }>>;
+    createdAt: z.ZodString;
+    updatedAt: z.ZodOptional<z.ZodString>;
+    editedAt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    reactions: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
+    threadCount: z.ZodOptional<z.ZodNumber>;
+}, "strip", z.ZodTypeAny, {
+    conversationId: string;
+    id: string;
+    createdAt: string;
+    userId: string;
+    content: string;
+    type?: "code" | "text" | "system" | undefined;
+    updatedAt?: string | undefined;
+    editedAt?: string | null | undefined;
+    metadata?: Record<string, any> | null | undefined;
+    user?: {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    } | undefined;
+    reactions?: any[] | undefined;
+    threadCount?: number | undefined;
+}, {
+    conversationId: string;
+    id: string;
+    createdAt: string;
+    userId: string;
+    content: string;
+    type?: "code" | "text" | "system" | undefined;
+    updatedAt?: string | undefined;
+    editedAt?: string | null | undefined;
+    metadata?: Record<string, any> | null | undefined;
+    user?: {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    } | undefined;
+    reactions?: any[] | undefined;
+    threadCount?: number | undefined;
+}>;
+declare const StatusSchema: z.ZodObject<{
+    id: z.ZodString;
+    userId: z.ZodString;
+    content: z.ZodString;
+    user: z.ZodObject<{
+        id: z.ZodString;
+        githubId: z.ZodOptional<z.ZodNumber>;
+        githubUsername: z.ZodString;
+        avatarUrl: z.ZodNullable<z.ZodString>;
+        displayName: z.ZodNullable<z.ZodString>;
+        email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+        isAdmin: z.ZodOptional<z.ZodBoolean>;
+        onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    }, {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    }>;
+    likesCount: z.ZodNumber;
+    commentsCount: z.ZodNumber;
+    isLiked: z.ZodBoolean;
+    createdAt: z.ZodString;
+    updatedAt: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    id: string;
+    createdAt: string;
+    userId: string;
+    content: string;
+    user: {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    };
+    likesCount: number;
+    commentsCount: number;
+    isLiked: boolean;
+    updatedAt?: string | undefined;
+}, {
+    id: string;
+    createdAt: string;
+    userId: string;
+    content: string;
+    user: {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    };
+    likesCount: number;
+    commentsCount: number;
+    isLiked: boolean;
+    updatedAt?: string | undefined;
+}>;
+declare const GroupSchema: z.ZodObject<{
+    id: z.ZodString;
+    name: z.ZodString;
+    avatarUrl: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+    members: z.ZodOptional<z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        githubId: z.ZodOptional<z.ZodNumber>;
+        githubUsername: z.ZodString;
+        avatarUrl: z.ZodNullable<z.ZodString>;
+        displayName: z.ZodNullable<z.ZodString>;
+        email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+        isAdmin: z.ZodOptional<z.ZodBoolean>;
+        onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    }, {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    }>, "many">>;
+    lastMessage: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+        id: z.ZodString;
+        conversationId: z.ZodString;
+        userId: z.ZodString;
+        content: z.ZodString;
+        type: z.ZodOptional<z.ZodEnum<["text", "code", "system"]>>;
+        metadata: z.ZodOptional<z.ZodNullable<z.ZodRecord<z.ZodString, z.ZodAny>>>;
+        user: z.ZodOptional<z.ZodObject<{
+            id: z.ZodString;
+            githubId: z.ZodOptional<z.ZodNumber>;
+            githubUsername: z.ZodString;
+            avatarUrl: z.ZodNullable<z.ZodString>;
+            displayName: z.ZodNullable<z.ZodString>;
+            email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+            isAdmin: z.ZodOptional<z.ZodBoolean>;
+            onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+            createdAt: z.ZodString;
+            updatedAt: z.ZodOptional<z.ZodString>;
+        }, "strip", z.ZodTypeAny, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }>>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+        editedAt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        reactions: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
+        threadCount: z.ZodOptional<z.ZodNumber>;
+    }, "strip", z.ZodTypeAny, {
+        conversationId: string;
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        type?: "code" | "text" | "system" | undefined;
+        updatedAt?: string | undefined;
+        editedAt?: string | null | undefined;
+        metadata?: Record<string, any> | null | undefined;
+        user?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        } | undefined;
+        reactions?: any[] | undefined;
+        threadCount?: number | undefined;
+    }, {
+        conversationId: string;
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        type?: "code" | "text" | "system" | undefined;
+        updatedAt?: string | undefined;
+        editedAt?: string | null | undefined;
+        metadata?: Record<string, any> | null | undefined;
+        user?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        } | undefined;
+        reactions?: any[] | undefined;
+        threadCount?: number | undefined;
+    }>>>;
+    lastReadSeq: z.ZodOptional<z.ZodNumber>;
+    unreadCount: z.ZodOptional<z.ZodNumber>;
+    createdAt: z.ZodString;
+    updatedAt: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    id: string;
+    createdAt: string;
+    name: string;
+    updatedAt?: string | undefined;
+    lastReadSeq?: number | undefined;
+    avatarUrl?: string | null | undefined;
+    unreadCount?: number | undefined;
+    members?: {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    }[] | undefined;
+    lastMessage?: {
+        conversationId: string;
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        type?: "code" | "text" | "system" | undefined;
+        updatedAt?: string | undefined;
+        editedAt?: string | null | undefined;
+        metadata?: Record<string, any> | null | undefined;
+        user?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        } | undefined;
+        reactions?: any[] | undefined;
+        threadCount?: number | undefined;
+    } | null | undefined;
+}, {
+    id: string;
+    createdAt: string;
+    name: string;
+    updatedAt?: string | undefined;
+    lastReadSeq?: number | undefined;
+    avatarUrl?: string | null | undefined;
+    unreadCount?: number | undefined;
+    members?: {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    }[] | undefined;
+    lastMessage?: {
+        conversationId: string;
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        type?: "code" | "text" | "system" | undefined;
+        updatedAt?: string | undefined;
+        editedAt?: string | null | undefined;
+        metadata?: Record<string, any> | null | undefined;
+        user?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        } | undefined;
+        reactions?: any[] | undefined;
+        threadCount?: number | undefined;
+    } | null | undefined;
+}>;
+/**
+ * GET /workspaces
+ * Backend returns: { workspaces: Workspace[] }
+ */
+declare const GetWorkspacesResponseSchema: z.ZodObject<{
+    workspaces: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        slug: z.ZodString;
+        name: z.ZodString;
+        githubOrgId: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        githubOrgLogin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        createdAt: string;
+        name: string;
+        slug: string;
+        updatedAt?: string | undefined;
+        githubOrgId?: number | null | undefined;
+        githubOrgLogin?: string | null | undefined;
+    }, {
+        id: string;
+        createdAt: string;
+        name: string;
+        slug: string;
+        updatedAt?: string | undefined;
+        githubOrgId?: number | null | undefined;
+        githubOrgLogin?: string | null | undefined;
+    }>, "many">;
+}, "strip", z.ZodTypeAny, {
+    workspaces: {
+        id: string;
+        createdAt: string;
+        name: string;
+        slug: string;
+        updatedAt?: string | undefined;
+        githubOrgId?: number | null | undefined;
+        githubOrgLogin?: string | null | undefined;
+    }[];
+}, {
+    workspaces: {
+        id: string;
+        createdAt: string;
+        name: string;
+        slug: string;
+        updatedAt?: string | undefined;
+        githubOrgId?: number | null | undefined;
+        githubOrgLogin?: string | null | undefined;
+    }[];
+}>;
+/**
+ * GET /workspaces/:id
+ * Backend returns: { workspace: Workspace }
+ */
+declare const GetWorkspaceResponseSchema: z.ZodObject<{
+    workspace: z.ZodObject<{
+        id: z.ZodString;
+        slug: z.ZodString;
+        name: z.ZodString;
+        githubOrgId: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        githubOrgLogin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        createdAt: string;
+        name: string;
+        slug: string;
+        updatedAt?: string | undefined;
+        githubOrgId?: number | null | undefined;
+        githubOrgLogin?: string | null | undefined;
+    }, {
+        id: string;
+        createdAt: string;
+        name: string;
+        slug: string;
+        updatedAt?: string | undefined;
+        githubOrgId?: number | null | undefined;
+        githubOrgLogin?: string | null | undefined;
+    }>;
+}, "strip", z.ZodTypeAny, {
+    workspace: {
+        id: string;
+        createdAt: string;
+        name: string;
+        slug: string;
+        updatedAt?: string | undefined;
+        githubOrgId?: number | null | undefined;
+        githubOrgLogin?: string | null | undefined;
+    };
+}, {
+    workspace: {
+        id: string;
+        createdAt: string;
+        name: string;
+        slug: string;
+        updatedAt?: string | undefined;
+        githubOrgId?: number | null | undefined;
+        githubOrgLogin?: string | null | undefined;
+    };
+}>;
+/**
+ * POST /workspaces
+ * Backend returns: { workspace: Workspace }
+ */
+declare const CreateWorkspaceResponseSchema: z.ZodObject<{
+    workspace: z.ZodObject<{
+        id: z.ZodString;
+        slug: z.ZodString;
+        name: z.ZodString;
+        githubOrgId: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        githubOrgLogin: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        createdAt: string;
+        name: string;
+        slug: string;
+        updatedAt?: string | undefined;
+        githubOrgId?: number | null | undefined;
+        githubOrgLogin?: string | null | undefined;
+    }, {
+        id: string;
+        createdAt: string;
+        name: string;
+        slug: string;
+        updatedAt?: string | undefined;
+        githubOrgId?: number | null | undefined;
+        githubOrgLogin?: string | null | undefined;
+    }>;
+}, "strip", z.ZodTypeAny, {
+    workspace: {
+        id: string;
+        createdAt: string;
+        name: string;
+        slug: string;
+        updatedAt?: string | undefined;
+        githubOrgId?: number | null | undefined;
+        githubOrgLogin?: string | null | undefined;
+    };
+}, {
+    workspace: {
+        id: string;
+        createdAt: string;
+        name: string;
+        slug: string;
+        updatedAt?: string | undefined;
+        githubOrgId?: number | null | undefined;
+        githubOrgLogin?: string | null | undefined;
+    };
+}>;
+/**
+ * GET /conversations
+ * Backend returns: { conversations: Conversation[] }
+ */
+declare const GetConversationsResponseSchema: z.ZodObject<{
+    conversations: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        workspaceId: z.ZodOptional<z.ZodString>;
+        type: z.ZodEnum<["channel", "dm", "group", "DM", "GROUP", "CHANNEL"]>;
+        name: z.ZodNullable<z.ZodString>;
+        topic: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        isPrivate: z.ZodOptional<z.ZodBoolean>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+        lastMessageAt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        unreadCount: z.ZodOptional<z.ZodNumber>;
+        members: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+        createdAt: string;
+        name: string | null;
+        workspaceId?: string | undefined;
+        updatedAt?: string | undefined;
+        topic?: string | null | undefined;
+        isPrivate?: boolean | undefined;
+        lastMessageAt?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: any[] | undefined;
+    }, {
+        id: string;
+        type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+        createdAt: string;
+        name: string | null;
+        workspaceId?: string | undefined;
+        updatedAt?: string | undefined;
+        topic?: string | null | undefined;
+        isPrivate?: boolean | undefined;
+        lastMessageAt?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: any[] | undefined;
+    }>, "many">;
+}, "strip", z.ZodTypeAny, {
+    conversations: {
+        id: string;
+        type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+        createdAt: string;
+        name: string | null;
+        workspaceId?: string | undefined;
+        updatedAt?: string | undefined;
+        topic?: string | null | undefined;
+        isPrivate?: boolean | undefined;
+        lastMessageAt?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: any[] | undefined;
+    }[];
+}, {
+    conversations: {
+        id: string;
+        type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+        createdAt: string;
+        name: string | null;
+        workspaceId?: string | undefined;
+        updatedAt?: string | undefined;
+        topic?: string | null | undefined;
+        isPrivate?: boolean | undefined;
+        lastMessageAt?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: any[] | undefined;
+    }[];
+}>;
+/**
+ * GET /conversations/:id
+ * Backend returns: { conversation: Conversation }
+ */
+declare const GetConversationResponseSchema: z.ZodObject<{
+    conversation: z.ZodObject<{
+        id: z.ZodString;
+        workspaceId: z.ZodOptional<z.ZodString>;
+        type: z.ZodEnum<["channel", "dm", "group", "DM", "GROUP", "CHANNEL"]>;
+        name: z.ZodNullable<z.ZodString>;
+        topic: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        isPrivate: z.ZodOptional<z.ZodBoolean>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+        lastMessageAt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        unreadCount: z.ZodOptional<z.ZodNumber>;
+        members: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+        createdAt: string;
+        name: string | null;
+        workspaceId?: string | undefined;
+        updatedAt?: string | undefined;
+        topic?: string | null | undefined;
+        isPrivate?: boolean | undefined;
+        lastMessageAt?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: any[] | undefined;
+    }, {
+        id: string;
+        type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+        createdAt: string;
+        name: string | null;
+        workspaceId?: string | undefined;
+        updatedAt?: string | undefined;
+        topic?: string | null | undefined;
+        isPrivate?: boolean | undefined;
+        lastMessageAt?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: any[] | undefined;
+    }>;
+}, "strip", z.ZodTypeAny, {
+    conversation: {
+        id: string;
+        type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+        createdAt: string;
+        name: string | null;
+        workspaceId?: string | undefined;
+        updatedAt?: string | undefined;
+        topic?: string | null | undefined;
+        isPrivate?: boolean | undefined;
+        lastMessageAt?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: any[] | undefined;
+    };
+}, {
+    conversation: {
+        id: string;
+        type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+        createdAt: string;
+        name: string | null;
+        workspaceId?: string | undefined;
+        updatedAt?: string | undefined;
+        topic?: string | null | undefined;
+        isPrivate?: boolean | undefined;
+        lastMessageAt?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: any[] | undefined;
+    };
+}>;
+/**
+ * POST /conversations
+ * Backend returns: { id: string, conversation: Conversation }
+ */
+declare const CreateConversationResponseSchema: z.ZodObject<{
+    id: z.ZodString;
+    conversation: z.ZodObject<{
+        id: z.ZodString;
+        workspaceId: z.ZodOptional<z.ZodString>;
+        type: z.ZodEnum<["channel", "dm", "group", "DM", "GROUP", "CHANNEL"]>;
+        name: z.ZodNullable<z.ZodString>;
+        topic: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        isPrivate: z.ZodOptional<z.ZodBoolean>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+        lastMessageAt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        unreadCount: z.ZodOptional<z.ZodNumber>;
+        members: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+        createdAt: string;
+        name: string | null;
+        workspaceId?: string | undefined;
+        updatedAt?: string | undefined;
+        topic?: string | null | undefined;
+        isPrivate?: boolean | undefined;
+        lastMessageAt?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: any[] | undefined;
+    }, {
+        id: string;
+        type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+        createdAt: string;
+        name: string | null;
+        workspaceId?: string | undefined;
+        updatedAt?: string | undefined;
+        topic?: string | null | undefined;
+        isPrivate?: boolean | undefined;
+        lastMessageAt?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: any[] | undefined;
+    }>;
+}, "strip", z.ZodTypeAny, {
+    id: string;
+    conversation: {
+        id: string;
+        type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+        createdAt: string;
+        name: string | null;
+        workspaceId?: string | undefined;
+        updatedAt?: string | undefined;
+        topic?: string | null | undefined;
+        isPrivate?: boolean | undefined;
+        lastMessageAt?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: any[] | undefined;
+    };
+}, {
+    id: string;
+    conversation: {
+        id: string;
+        type: "dm" | "group" | "channel" | "DM" | "GROUP" | "CHANNEL";
+        createdAt: string;
+        name: string | null;
+        workspaceId?: string | undefined;
+        updatedAt?: string | undefined;
+        topic?: string | null | undefined;
+        isPrivate?: boolean | undefined;
+        lastMessageAt?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: any[] | undefined;
+    };
+}>;
+/**
+ * GET /conversations/:id/messages
+ * Backend returns: { messages: Message[], hasMore: boolean }
+ */
+declare const GetMessagesResponseSchema: z.ZodObject<{
+    messages: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        conversationId: z.ZodString;
+        userId: z.ZodString;
+        content: z.ZodString;
+        type: z.ZodOptional<z.ZodEnum<["text", "code", "system"]>>;
+        metadata: z.ZodOptional<z.ZodNullable<z.ZodRecord<z.ZodString, z.ZodAny>>>;
+        user: z.ZodOptional<z.ZodObject<{
+            id: z.ZodString;
+            githubId: z.ZodOptional<z.ZodNumber>;
+            githubUsername: z.ZodString;
+            avatarUrl: z.ZodNullable<z.ZodString>;
+            displayName: z.ZodNullable<z.ZodString>;
+            email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+            isAdmin: z.ZodOptional<z.ZodBoolean>;
+            onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+            createdAt: z.ZodString;
+            updatedAt: z.ZodOptional<z.ZodString>;
+        }, "strip", z.ZodTypeAny, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }>>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+        editedAt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        reactions: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
+        threadCount: z.ZodOptional<z.ZodNumber>;
+    }, "strip", z.ZodTypeAny, {
+        conversationId: string;
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        type?: "code" | "text" | "system" | undefined;
+        updatedAt?: string | undefined;
+        editedAt?: string | null | undefined;
+        metadata?: Record<string, any> | null | undefined;
+        user?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        } | undefined;
+        reactions?: any[] | undefined;
+        threadCount?: number | undefined;
+    }, {
+        conversationId: string;
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        type?: "code" | "text" | "system" | undefined;
+        updatedAt?: string | undefined;
+        editedAt?: string | null | undefined;
+        metadata?: Record<string, any> | null | undefined;
+        user?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        } | undefined;
+        reactions?: any[] | undefined;
+        threadCount?: number | undefined;
+    }>, "many">;
+    hasMore: z.ZodBoolean;
+}, "strip", z.ZodTypeAny, {
+    messages: {
+        conversationId: string;
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        type?: "code" | "text" | "system" | undefined;
+        updatedAt?: string | undefined;
+        editedAt?: string | null | undefined;
+        metadata?: Record<string, any> | null | undefined;
+        user?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        } | undefined;
+        reactions?: any[] | undefined;
+        threadCount?: number | undefined;
+    }[];
+    hasMore: boolean;
+}, {
+    messages: {
+        conversationId: string;
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        type?: "code" | "text" | "system" | undefined;
+        updatedAt?: string | undefined;
+        editedAt?: string | null | undefined;
+        metadata?: Record<string, any> | null | undefined;
+        user?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        } | undefined;
+        reactions?: any[] | undefined;
+        threadCount?: number | undefined;
+    }[];
+    hasMore: boolean;
+}>;
+/**
+ * POST /conversations/:id/messages
+ * Backend returns: { message: Message }
+ */
+declare const SendMessageResponseSchema: z.ZodObject<{
+    message: z.ZodObject<{
+        id: z.ZodString;
+        conversationId: z.ZodString;
+        userId: z.ZodString;
+        content: z.ZodString;
+        type: z.ZodOptional<z.ZodEnum<["text", "code", "system"]>>;
+        metadata: z.ZodOptional<z.ZodNullable<z.ZodRecord<z.ZodString, z.ZodAny>>>;
+        user: z.ZodOptional<z.ZodObject<{
+            id: z.ZodString;
+            githubId: z.ZodOptional<z.ZodNumber>;
+            githubUsername: z.ZodString;
+            avatarUrl: z.ZodNullable<z.ZodString>;
+            displayName: z.ZodNullable<z.ZodString>;
+            email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+            isAdmin: z.ZodOptional<z.ZodBoolean>;
+            onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+            createdAt: z.ZodString;
+            updatedAt: z.ZodOptional<z.ZodString>;
+        }, "strip", z.ZodTypeAny, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }>>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+        editedAt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        reactions: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
+        threadCount: z.ZodOptional<z.ZodNumber>;
+    }, "strip", z.ZodTypeAny, {
+        conversationId: string;
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        type?: "code" | "text" | "system" | undefined;
+        updatedAt?: string | undefined;
+        editedAt?: string | null | undefined;
+        metadata?: Record<string, any> | null | undefined;
+        user?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        } | undefined;
+        reactions?: any[] | undefined;
+        threadCount?: number | undefined;
+    }, {
+        conversationId: string;
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        type?: "code" | "text" | "system" | undefined;
+        updatedAt?: string | undefined;
+        editedAt?: string | null | undefined;
+        metadata?: Record<string, any> | null | undefined;
+        user?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        } | undefined;
+        reactions?: any[] | undefined;
+        threadCount?: number | undefined;
+    }>;
+}, "strip", z.ZodTypeAny, {
+    message: {
+        conversationId: string;
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        type?: "code" | "text" | "system" | undefined;
+        updatedAt?: string | undefined;
+        editedAt?: string | null | undefined;
+        metadata?: Record<string, any> | null | undefined;
+        user?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        } | undefined;
+        reactions?: any[] | undefined;
+        threadCount?: number | undefined;
+    };
+}, {
+    message: {
+        conversationId: string;
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        type?: "code" | "text" | "system" | undefined;
+        updatedAt?: string | undefined;
+        editedAt?: string | null | undefined;
+        metadata?: Record<string, any> | null | undefined;
+        user?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        } | undefined;
+        reactions?: any[] | undefined;
+        threadCount?: number | undefined;
+    };
+}>;
+/**
+ * GET /users?q=query
+ * Backend returns: { users: User[] }
+ */
+declare const SearchUsersResponseSchema: z.ZodObject<{
+    users: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        githubId: z.ZodOptional<z.ZodNumber>;
+        githubUsername: z.ZodString;
+        avatarUrl: z.ZodNullable<z.ZodString>;
+        displayName: z.ZodNullable<z.ZodString>;
+        email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+        isAdmin: z.ZodOptional<z.ZodBoolean>;
+        onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    }, {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    }>, "many">;
+}, "strip", z.ZodTypeAny, {
+    users: {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    }[];
+}, {
+    users: {
+        id: string;
+        displayName: string | null;
+        createdAt: string;
+        avatarUrl: string | null;
+        githubUsername: string;
+        githubId?: number | undefined;
+        email?: string | null | undefined;
+        plan?: "free" | "pro" | undefined;
+        updatedAt?: string | undefined;
+        isAdmin?: boolean | undefined;
+        onboardingCompleted?: boolean | undefined;
+    }[];
+}>;
+/**
+ * GET /groups
+ * Backend returns: { groups: Group[] }
+ */
+declare const GetGroupsResponseSchema: z.ZodObject<{
+    groups: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        name: z.ZodString;
+        avatarUrl: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        members: z.ZodOptional<z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            githubId: z.ZodOptional<z.ZodNumber>;
+            githubUsername: z.ZodString;
+            avatarUrl: z.ZodNullable<z.ZodString>;
+            displayName: z.ZodNullable<z.ZodString>;
+            email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+            isAdmin: z.ZodOptional<z.ZodBoolean>;
+            onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+            createdAt: z.ZodString;
+            updatedAt: z.ZodOptional<z.ZodString>;
+        }, "strip", z.ZodTypeAny, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }>, "many">>;
+        lastMessage: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+            id: z.ZodString;
+            conversationId: z.ZodString;
+            userId: z.ZodString;
+            content: z.ZodString;
+            type: z.ZodOptional<z.ZodEnum<["text", "code", "system"]>>;
+            metadata: z.ZodOptional<z.ZodNullable<z.ZodRecord<z.ZodString, z.ZodAny>>>;
+            user: z.ZodOptional<z.ZodObject<{
+                id: z.ZodString;
+                githubId: z.ZodOptional<z.ZodNumber>;
+                githubUsername: z.ZodString;
+                avatarUrl: z.ZodNullable<z.ZodString>;
+                displayName: z.ZodNullable<z.ZodString>;
+                email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+                isAdmin: z.ZodOptional<z.ZodBoolean>;
+                onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+                createdAt: z.ZodString;
+                updatedAt: z.ZodOptional<z.ZodString>;
+            }, "strip", z.ZodTypeAny, {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            }, {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            }>>;
+            createdAt: z.ZodString;
+            updatedAt: z.ZodOptional<z.ZodString>;
+            editedAt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            reactions: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
+            threadCount: z.ZodOptional<z.ZodNumber>;
+        }, "strip", z.ZodTypeAny, {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        }, {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        }>>>;
+        lastReadSeq: z.ZodOptional<z.ZodNumber>;
+        unreadCount: z.ZodOptional<z.ZodNumber>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        createdAt: string;
+        name: string;
+        updatedAt?: string | undefined;
+        lastReadSeq?: number | undefined;
+        avatarUrl?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }[] | undefined;
+        lastMessage?: {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        } | null | undefined;
+    }, {
+        id: string;
+        createdAt: string;
+        name: string;
+        updatedAt?: string | undefined;
+        lastReadSeq?: number | undefined;
+        avatarUrl?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }[] | undefined;
+        lastMessage?: {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        } | null | undefined;
+    }>, "many">;
+}, "strip", z.ZodTypeAny, {
+    groups: {
+        id: string;
+        createdAt: string;
+        name: string;
+        updatedAt?: string | undefined;
+        lastReadSeq?: number | undefined;
+        avatarUrl?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }[] | undefined;
+        lastMessage?: {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        } | null | undefined;
+    }[];
+}, {
+    groups: {
+        id: string;
+        createdAt: string;
+        name: string;
+        updatedAt?: string | undefined;
+        lastReadSeq?: number | undefined;
+        avatarUrl?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }[] | undefined;
+        lastMessage?: {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        } | null | undefined;
+    }[];
+}>;
+/**
+ * GET /groups/:id
+ * Backend returns: { group: Group }
+ */
+declare const GetGroupResponseSchema: z.ZodObject<{
+    group: z.ZodObject<{
+        id: z.ZodString;
+        name: z.ZodString;
+        avatarUrl: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        members: z.ZodOptional<z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            githubId: z.ZodOptional<z.ZodNumber>;
+            githubUsername: z.ZodString;
+            avatarUrl: z.ZodNullable<z.ZodString>;
+            displayName: z.ZodNullable<z.ZodString>;
+            email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+            isAdmin: z.ZodOptional<z.ZodBoolean>;
+            onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+            createdAt: z.ZodString;
+            updatedAt: z.ZodOptional<z.ZodString>;
+        }, "strip", z.ZodTypeAny, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }>, "many">>;
+        lastMessage: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+            id: z.ZodString;
+            conversationId: z.ZodString;
+            userId: z.ZodString;
+            content: z.ZodString;
+            type: z.ZodOptional<z.ZodEnum<["text", "code", "system"]>>;
+            metadata: z.ZodOptional<z.ZodNullable<z.ZodRecord<z.ZodString, z.ZodAny>>>;
+            user: z.ZodOptional<z.ZodObject<{
+                id: z.ZodString;
+                githubId: z.ZodOptional<z.ZodNumber>;
+                githubUsername: z.ZodString;
+                avatarUrl: z.ZodNullable<z.ZodString>;
+                displayName: z.ZodNullable<z.ZodString>;
+                email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+                isAdmin: z.ZodOptional<z.ZodBoolean>;
+                onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+                createdAt: z.ZodString;
+                updatedAt: z.ZodOptional<z.ZodString>;
+            }, "strip", z.ZodTypeAny, {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            }, {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            }>>;
+            createdAt: z.ZodString;
+            updatedAt: z.ZodOptional<z.ZodString>;
+            editedAt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            reactions: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
+            threadCount: z.ZodOptional<z.ZodNumber>;
+        }, "strip", z.ZodTypeAny, {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        }, {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        }>>>;
+        lastReadSeq: z.ZodOptional<z.ZodNumber>;
+        unreadCount: z.ZodOptional<z.ZodNumber>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        createdAt: string;
+        name: string;
+        updatedAt?: string | undefined;
+        lastReadSeq?: number | undefined;
+        avatarUrl?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }[] | undefined;
+        lastMessage?: {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        } | null | undefined;
+    }, {
+        id: string;
+        createdAt: string;
+        name: string;
+        updatedAt?: string | undefined;
+        lastReadSeq?: number | undefined;
+        avatarUrl?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }[] | undefined;
+        lastMessage?: {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        } | null | undefined;
+    }>;
+}, "strip", z.ZodTypeAny, {
+    group: {
+        id: string;
+        createdAt: string;
+        name: string;
+        updatedAt?: string | undefined;
+        lastReadSeq?: number | undefined;
+        avatarUrl?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }[] | undefined;
+        lastMessage?: {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        } | null | undefined;
+    };
+}, {
+    group: {
+        id: string;
+        createdAt: string;
+        name: string;
+        updatedAt?: string | undefined;
+        lastReadSeq?: number | undefined;
+        avatarUrl?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }[] | undefined;
+        lastMessage?: {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        } | null | undefined;
+    };
+}>;
+/**
+ * POST /groups
+ * Backend returns: { group: Group }
+ */
+declare const CreateGroupResponseSchema: z.ZodObject<{
+    group: z.ZodObject<{
+        id: z.ZodString;
+        name: z.ZodString;
+        avatarUrl: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        members: z.ZodOptional<z.ZodArray<z.ZodObject<{
+            id: z.ZodString;
+            githubId: z.ZodOptional<z.ZodNumber>;
+            githubUsername: z.ZodString;
+            avatarUrl: z.ZodNullable<z.ZodString>;
+            displayName: z.ZodNullable<z.ZodString>;
+            email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+            isAdmin: z.ZodOptional<z.ZodBoolean>;
+            onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+            createdAt: z.ZodString;
+            updatedAt: z.ZodOptional<z.ZodString>;
+        }, "strip", z.ZodTypeAny, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }>, "many">>;
+        lastMessage: z.ZodOptional<z.ZodNullable<z.ZodObject<{
+            id: z.ZodString;
+            conversationId: z.ZodString;
+            userId: z.ZodString;
+            content: z.ZodString;
+            type: z.ZodOptional<z.ZodEnum<["text", "code", "system"]>>;
+            metadata: z.ZodOptional<z.ZodNullable<z.ZodRecord<z.ZodString, z.ZodAny>>>;
+            user: z.ZodOptional<z.ZodObject<{
+                id: z.ZodString;
+                githubId: z.ZodOptional<z.ZodNumber>;
+                githubUsername: z.ZodString;
+                avatarUrl: z.ZodNullable<z.ZodString>;
+                displayName: z.ZodNullable<z.ZodString>;
+                email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+                isAdmin: z.ZodOptional<z.ZodBoolean>;
+                onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+                createdAt: z.ZodString;
+                updatedAt: z.ZodOptional<z.ZodString>;
+            }, "strip", z.ZodTypeAny, {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            }, {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            }>>;
+            createdAt: z.ZodString;
+            updatedAt: z.ZodOptional<z.ZodString>;
+            editedAt: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            reactions: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
+            threadCount: z.ZodOptional<z.ZodNumber>;
+        }, "strip", z.ZodTypeAny, {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        }, {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        }>>>;
+        lastReadSeq: z.ZodOptional<z.ZodNumber>;
+        unreadCount: z.ZodOptional<z.ZodNumber>;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        createdAt: string;
+        name: string;
+        updatedAt?: string | undefined;
+        lastReadSeq?: number | undefined;
+        avatarUrl?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }[] | undefined;
+        lastMessage?: {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        } | null | undefined;
+    }, {
+        id: string;
+        createdAt: string;
+        name: string;
+        updatedAt?: string | undefined;
+        lastReadSeq?: number | undefined;
+        avatarUrl?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }[] | undefined;
+        lastMessage?: {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        } | null | undefined;
+    }>;
+}, "strip", z.ZodTypeAny, {
+    group: {
+        id: string;
+        createdAt: string;
+        name: string;
+        updatedAt?: string | undefined;
+        lastReadSeq?: number | undefined;
+        avatarUrl?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }[] | undefined;
+        lastMessage?: {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        } | null | undefined;
+    };
+}, {
+    group: {
+        id: string;
+        createdAt: string;
+        name: string;
+        updatedAt?: string | undefined;
+        lastReadSeq?: number | undefined;
+        avatarUrl?: string | null | undefined;
+        unreadCount?: number | undefined;
+        members?: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }[] | undefined;
+        lastMessage?: {
+            conversationId: string;
+            id: string;
+            createdAt: string;
+            userId: string;
+            content: string;
+            type?: "code" | "text" | "system" | undefined;
+            updatedAt?: string | undefined;
+            editedAt?: string | null | undefined;
+            metadata?: Record<string, any> | null | undefined;
+            user?: {
+                id: string;
+                displayName: string | null;
+                createdAt: string;
+                avatarUrl: string | null;
+                githubUsername: string;
+                githubId?: number | undefined;
+                email?: string | null | undefined;
+                plan?: "free" | "pro" | undefined;
+                updatedAt?: string | undefined;
+                isAdmin?: boolean | undefined;
+                onboardingCompleted?: boolean | undefined;
+            } | undefined;
+            reactions?: any[] | undefined;
+            threadCount?: number | undefined;
+        } | null | undefined;
+    };
+}>;
+/**
+ * GET /saved
+ * Backend returns: { savedMessages: SavedMessage[] }
+ */
+declare const GetSavedMessagesResponseSchema: z.ZodObject<{
+    savedMessages: z.ZodArray<z.ZodAny, "many">;
+}, "strip", z.ZodTypeAny, {
+    savedMessages: any[];
+}, {
+    savedMessages: any[];
+}>;
+/**
+ * GET /statuses
+ * Backend returns: { statuses: Status[], nextCursor?: string, hasMore: boolean }
+ */
+declare const GetStatusFeedResponseSchema: z.ZodObject<{
+    statuses: z.ZodArray<z.ZodObject<{
+        id: z.ZodString;
+        userId: z.ZodString;
+        content: z.ZodString;
+        user: z.ZodObject<{
+            id: z.ZodString;
+            githubId: z.ZodOptional<z.ZodNumber>;
+            githubUsername: z.ZodString;
+            avatarUrl: z.ZodNullable<z.ZodString>;
+            displayName: z.ZodNullable<z.ZodString>;
+            email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+            isAdmin: z.ZodOptional<z.ZodBoolean>;
+            onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+            createdAt: z.ZodString;
+            updatedAt: z.ZodOptional<z.ZodString>;
+        }, "strip", z.ZodTypeAny, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }>;
+        likesCount: z.ZodNumber;
+        commentsCount: z.ZodNumber;
+        isLiked: z.ZodBoolean;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        user: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        };
+        likesCount: number;
+        commentsCount: number;
+        isLiked: boolean;
+        updatedAt?: string | undefined;
+    }, {
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        user: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        };
+        likesCount: number;
+        commentsCount: number;
+        isLiked: boolean;
+        updatedAt?: string | undefined;
+    }>, "many">;
+    nextCursor: z.ZodOptional<z.ZodString>;
+    hasMore: z.ZodBoolean;
+}, "strip", z.ZodTypeAny, {
+    hasMore: boolean;
+    statuses: {
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        user: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        };
+        likesCount: number;
+        commentsCount: number;
+        isLiked: boolean;
+        updatedAt?: string | undefined;
+    }[];
+    nextCursor?: string | undefined;
+}, {
+    hasMore: boolean;
+    statuses: {
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        user: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        };
+        likesCount: number;
+        commentsCount: number;
+        isLiked: boolean;
+        updatedAt?: string | undefined;
+    }[];
+    nextCursor?: string | undefined;
+}>;
+/**
+ * POST /statuses
+ * Backend returns: { status: Status }
+ */
+declare const CreateStatusResponseSchema: z.ZodObject<{
+    status: z.ZodObject<{
+        id: z.ZodString;
+        userId: z.ZodString;
+        content: z.ZodString;
+        user: z.ZodObject<{
+            id: z.ZodString;
+            githubId: z.ZodOptional<z.ZodNumber>;
+            githubUsername: z.ZodString;
+            avatarUrl: z.ZodNullable<z.ZodString>;
+            displayName: z.ZodNullable<z.ZodString>;
+            email: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            plan: z.ZodOptional<z.ZodEnum<["free", "pro"]>>;
+            isAdmin: z.ZodOptional<z.ZodBoolean>;
+            onboardingCompleted: z.ZodOptional<z.ZodBoolean>;
+            createdAt: z.ZodString;
+            updatedAt: z.ZodOptional<z.ZodString>;
+        }, "strip", z.ZodTypeAny, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }, {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        }>;
+        likesCount: z.ZodNumber;
+        commentsCount: z.ZodNumber;
+        isLiked: z.ZodBoolean;
+        createdAt: z.ZodString;
+        updatedAt: z.ZodOptional<z.ZodString>;
+    }, "strip", z.ZodTypeAny, {
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        user: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        };
+        likesCount: number;
+        commentsCount: number;
+        isLiked: boolean;
+        updatedAt?: string | undefined;
+    }, {
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        user: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        };
+        likesCount: number;
+        commentsCount: number;
+        isLiked: boolean;
+        updatedAt?: string | undefined;
+    }>;
+}, "strip", z.ZodTypeAny, {
+    status: {
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        user: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        };
+        likesCount: number;
+        commentsCount: number;
+        isLiked: boolean;
+        updatedAt?: string | undefined;
+    };
+}, {
+    status: {
+        id: string;
+        createdAt: string;
+        userId: string;
+        content: string;
+        user: {
+            id: string;
+            displayName: string | null;
+            createdAt: string;
+            avatarUrl: string | null;
+            githubUsername: string;
+            githubId?: number | undefined;
+            email?: string | null | undefined;
+            plan?: "free" | "pro" | undefined;
+            updatedAt?: string | undefined;
+            isAdmin?: boolean | undefined;
+            onboardingCompleted?: boolean | undefined;
+        };
+        likesCount: number;
+        commentsCount: number;
+        isLiked: boolean;
+        updatedAt?: string | undefined;
+    };
+}>;
+/**
+ * GET /statuses/:id/comments
+ * Backend returns: { comments: Comment[], total: number }
+ */
+declare const GetStatusCommentsResponseSchema: z.ZodObject<{
+    comments: z.ZodArray<z.ZodAny, "many">;
+    total: z.ZodNumber;
+}, "strip", z.ZodTypeAny, {
+    comments: any[];
+    total: number;
+}, {
+    comments: any[];
+    total: number;
+}>;
+/**
+ * POST /statuses/:id/comments
+ * Backend returns: { comment: Comment }
+ */
+declare const CreateStatusCommentResponseSchema: z.ZodObject<{
+    comment: z.ZodAny;
+}, "strip", z.ZodTypeAny, {
+    comment?: any;
+}, {
+    comment?: any;
+}>;
+type ApiEndpoint = 'GET /workspaces' | 'GET /workspaces/:id' | 'POST /workspaces' | 'GET /conversations' | 'GET /conversations/:id' | 'POST /conversations' | 'GET /conversations/:id/messages' | 'POST /conversations/:id/messages' | 'GET /users' | 'GET /groups' | 'GET /groups/:id' | 'POST /groups' | 'GET /saved' | 'GET /statuses' | 'POST /statuses' | 'GET /statuses/:id/comments' | 'POST /statuses/:id/comments';
+declare const ResponseSchemas: Record<ApiEndpoint, z.ZodSchema>;
+/**
+ * Validates an API response against the expected schema.
+ * Use in development to catch frontend/backend contract mismatches.
+ *
+ * @param endpoint - The API endpoint being called
+ * @param response - The response data from the API
+ * @returns The validated response (throws in dev if invalid)
+ */
+declare function validateResponse<T>(endpoint: ApiEndpoint, response: unknown): T;
+/**
+ * Creates a wrapper function that validates responses in development.
+ * Production: passthrough (no validation overhead)
+ * Development: validates and logs/throws on mismatch
+ */
+declare function withValidation<T>(endpoint: ApiEndpoint, fetcher: () => Promise<T>): () => Promise<T>;
+
 declare const PLAN_LIMITS: {
     readonly free: {
         readonly messageTextMaxChars: 4000;
@@ -2059,4 +4744,4 @@ declare function escapeHTML(text: string): string;
  */
 declare function countWords(text: string): number;
 
-export { type APIError, type APIResponse, type AddChannelMemberRequest, type AddConversationMemberRequest, type AddReactionRequest, type AddWorkspaceMemberRequest, type Admin2FARequest, type AdminLoginRequest, type AdminLoginResponse, type AdminUser, type AttachmentListResponse, type AuthErrorPayload, type AuthPayload, type AuthSuccessPayload, type BanUserRequest, type BaseConversation, type ChangePasswordRequest, type Channel, type ChannelCreatedPayload, type ChannelDeletedPayload, type ChannelListResponse, type ChannelMember, type ChannelMemberJoinedPayload, type ChannelMemberLeftPayload, type ChannelResponse, type ChannelUpdatedPayload, type ClientToServerEvents, type Conversation, type ConversationJoinPayload, type ConversationJoinedPayload, type ConversationLeavePayload, type ConversationLeftPayload, type ConversationListResponse, type ConversationMarkReadPayload, type ConversationMember, type ConversationResponse, type ConversationType, type ConversationUpdatedPayload, type CreateAttachmentRequest, type CreateAttachmentResponse, type CreateChannelRequest, type CreateDMConversationRequest, type CreateGroupConversationRequest, type CreateMessageRequest, type CreatePRRoomConversationRequest, type CreateSessionRequest, type CreateSessionResponse, type CreateUserRequest, type CreateWorkspaceRequest, type DMConversation, type Disable2FARequest, ERROR_CODES, type Enable2FAResponse, type EncryptedField, type EncryptedMessage, type EncryptionConfig, type EncryptionStatus, type ErrorCode, type GitHubPRListResponse, type GitHubPRResponse, type GitHubRepoListResponse, type GitHubRepoResponse, type GroupChatInvite, type GroupChatMember, type GroupChatPermissions, type GroupChatSettings, type GroupConversation, type JailUserRequest, type MarkConversationReadRequest, type MarkNotificationReadRequest, type Message, type MessageAttachment, type MessageCreatedPayload, type MessageDeletedPayload, type MessageDraft, type MessageDraftResponse, type MessageEditedPayload, type MessageListResponse, type MessageNewPayload, type MessageResponse, type MessageUpdatedPayload, type ModerationAction, type ModerationStatus, type MuteConversationRequest, type Notification, type NotificationListResponse, type NotificationNewPayload, type NotificationReadPayload, type NotificationResponse, type NotificationSettings, type NotificationType, type OnboardingProgress, OnboardingProgressSchema, type OnboardingStatus, OnboardingStatusSchema, OnboardingStep, OnboardingStepSchema, PLAN_LIMITS, type PRRoomConversation, type PaginatedResponse, type PaginationParams, type PinnedMessage, type PlanType, type PresenceChangedPayload, type PresenceUpdatePayload, type Reaction, type ReactionAddedPayload, type ReactionGroup, type ReactionListResponse, type ReactionRemovedPayload, type RegenerateBackupCodesRequest, type RegenerateBackupCodesResponse, SOCKET_EVENTS, type SaveMessageDraftRequest, type SavedMessage, type SearchMessagesRequest, type SearchMessagesResponse, type ServerToClientEvents, type Session, type SessionListResponse, type SessionResponse, type SocketEvent, type SocketEventPayload, type TermsAcceptanceRequest, TermsAcceptanceRequestSchema, type TwoFactorSetup, type TypedClientSocket, type TypedServer, type TypedServerSocket, type TypingStartPayload, type TypingStopPayload, type UpdateChannelRequest, type UpdateConversationRequest, type UpdateMessageRequest, type UpdatePresenceRequest, type UpdateUserRequest, type UpdateWorkspaceMemberRequest, type UpdateWorkspaceRequest, type User, type UserEntitlements, type UserListResponse, type UserPresence, type UserResponse, type UserStatsResponse, type WarnUserRequest, type Workspace, type WorkspaceChannelConversation, type WorkspaceListResponse, type WorkspaceMember, type WorkspaceMemberJoinedPayload, type WorkspaceMemberLeftPayload, type WorkspaceMemberRoleChangedPayload, type WorkspaceResponse, type WorkspaceStatsResponse, type WorkspaceUpdatedPayload, channelMemberSchema, channelSchema, conversationMemberSchema, conversationSchema, countWords, createCodeBlockValidator, createMessageContentValidator, dmConversationSchema, escapeHTML, extractMentions, formatFullDateTime, formatMessageTimestamp, formatRelativeTime, formatShortDate, groupChatInviteSchema, groupChatMemberSchema, groupChatPermissionsSchema, groupChatSettingsSchema, groupConversationSchema, messageAttachmentSchema, messageDraftSchema, messageSchema, notificationSchema, notificationSettingsSchema, pinnedMessageSchema, prRoomConversationSchema, reactionGroupSchema, reactionSchema, savedMessageSchema, slugify, truncate, truncateWords, userPresenceSchema, userSchema, usernameSchema, workspaceChannelConversationSchema, workspaceMemberSchema, workspaceSchema };
+export { type APIError, type APIResponse, type AddChannelMemberRequest, type AddConversationMemberRequest, type AddReactionRequest, type AddWorkspaceMemberRequest, type Admin2FARequest, type AdminLoginRequest, type AdminLoginResponse, type AdminUser, type ApiEndpoint, type AttachmentListResponse, type AuthErrorPayload, type AuthPayload, type AuthSuccessPayload, type BanUserRequest, type BaseConversation, type ChangePasswordRequest, type Channel, type ChannelCreatedPayload, type ChannelDeletedPayload, type ChannelListResponse, type ChannelMember, type ChannelMemberJoinedPayload, type ChannelMemberLeftPayload, type ChannelResponse, type ChannelUpdatedPayload, type ClientToServerEvents, type Conversation, type ConversationJoinPayload, type ConversationJoinedPayload, type ConversationLeavePayload, type ConversationLeftPayload, type ConversationListResponse, type ConversationMarkReadPayload, type ConversationMember, type ConversationResponse, ConversationSchema, type ConversationType, type ConversationUpdatedPayload, type CreateAttachmentRequest, type CreateAttachmentResponse, type CreateChannelRequest, CreateConversationResponseSchema, type CreateDMConversationRequest, type CreateGroupConversationRequest, CreateGroupResponseSchema, type CreateMessageRequest, type CreatePRRoomConversationRequest, type CreateSessionRequest, type CreateSessionResponse, CreateStatusCommentResponseSchema, CreateStatusResponseSchema, type CreateUserRequest, type CreateWorkspaceRequest, CreateWorkspaceResponseSchema, type DMConversation, type Disable2FARequest, ERROR_CODES, type Enable2FAResponse, type EncryptedField, type EncryptedMessage, type EncryptionConfig, type EncryptionStatus, type ErrorCode, GetConversationResponseSchema, GetConversationsResponseSchema, GetGroupResponseSchema, GetGroupsResponseSchema, GetMessagesResponseSchema, GetSavedMessagesResponseSchema, GetStatusCommentsResponseSchema, GetStatusFeedResponseSchema, GetWorkspaceResponseSchema, GetWorkspacesResponseSchema, type GitHubPRListResponse, type GitHubPRResponse, type GitHubRepoListResponse, type GitHubRepoResponse, type GroupChatInvite, type GroupChatMember, type GroupChatPermissions, type GroupChatSettings, type GroupConversation, GroupSchema, type JailUserRequest, type MarkConversationReadRequest, type MarkNotificationReadRequest, type Message, type MessageAttachment, type MessageCreatedPayload, type MessageDeletedPayload, type MessageDraft, type MessageDraftResponse, type MessageEditedPayload, type MessageListResponse, type MessageNewPayload, type MessageResponse, MessageSchema, type MessageUpdatedPayload, type ModerationAction, type ModerationStatus, type MuteConversationRequest, type Notification, type NotificationListResponse, type NotificationNewPayload, type NotificationReadPayload, type NotificationResponse, type NotificationSettings, type NotificationType, type OnboardingProgress, OnboardingProgressSchema, type OnboardingStatus, OnboardingStatusSchema, OnboardingStep, OnboardingStepSchema, PLAN_LIMITS, type PRRoomConversation, type PaginatedResponse, type PaginationParams, type PinnedMessage, type PlanType, type PresenceChangedPayload, type PresenceUpdatePayload, type Reaction, type ReactionAddedPayload, type ReactionGroup, type ReactionListResponse, type ReactionRemovedPayload, type RegenerateBackupCodesRequest, type RegenerateBackupCodesResponse, ResponseSchemas, SOCKET_EVENTS, type SaveMessageDraftRequest, type SavedMessage, type SearchMessagesRequest, type SearchMessagesResponse, SearchUsersResponseSchema, SendMessageResponseSchema, type ServerToClientEvents, type Session, type SessionListResponse, type SessionResponse, type SocketEvent, type SocketEventPayload, StatusSchema, type TermsAcceptanceRequest, TermsAcceptanceRequestSchema, type TwoFactorSetup, type TypedClientSocket, type TypedServer, type TypedServerSocket, type TypingStartPayload, type TypingStopPayload, type UpdateChannelRequest, type UpdateConversationRequest, type UpdateMessageRequest, type UpdatePresenceRequest, type UpdateUserRequest, type UpdateWorkspaceMemberRequest, type UpdateWorkspaceRequest, type User, type UserEntitlements, type UserListResponse, type UserPresence, type UserResponse, UserSchema, type UserStatsResponse, type WarnUserRequest, type Workspace, type WorkspaceChannelConversation, type WorkspaceListResponse, type WorkspaceMember, type WorkspaceMemberJoinedPayload, type WorkspaceMemberLeftPayload, type WorkspaceMemberRoleChangedPayload, type WorkspaceResponse, WorkspaceSchema, type WorkspaceStatsResponse, type WorkspaceUpdatedPayload, channelMemberSchema, channelSchema, conversationMemberSchema, conversationSchema, countWords, createCodeBlockValidator, createMessageContentValidator, dmConversationSchema, escapeHTML, extractMentions, formatFullDateTime, formatMessageTimestamp, formatRelativeTime, formatShortDate, groupChatInviteSchema, groupChatMemberSchema, groupChatPermissionsSchema, groupChatSettingsSchema, groupConversationSchema, messageAttachmentSchema, messageDraftSchema, messageSchema, notificationSchema, notificationSettingsSchema, pinnedMessageSchema, prRoomConversationSchema, reactionGroupSchema, reactionSchema, savedMessageSchema, slugify, truncate, truncateWords, userPresenceSchema, userSchema, usernameSchema, validateResponse, withValidation, workspaceChannelConversationSchema, workspaceMemberSchema, workspaceSchema };

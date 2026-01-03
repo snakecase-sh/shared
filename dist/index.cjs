@@ -20,14 +20,38 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
+  ConversationSchema: () => ConversationSchema,
+  CreateConversationResponseSchema: () => CreateConversationResponseSchema,
+  CreateGroupResponseSchema: () => CreateGroupResponseSchema,
+  CreateStatusCommentResponseSchema: () => CreateStatusCommentResponseSchema,
+  CreateStatusResponseSchema: () => CreateStatusResponseSchema,
+  CreateWorkspaceResponseSchema: () => CreateWorkspaceResponseSchema,
   ERROR_CODES: () => ERROR_CODES,
+  GetConversationResponseSchema: () => GetConversationResponseSchema,
+  GetConversationsResponseSchema: () => GetConversationsResponseSchema,
+  GetGroupResponseSchema: () => GetGroupResponseSchema,
+  GetGroupsResponseSchema: () => GetGroupsResponseSchema,
+  GetMessagesResponseSchema: () => GetMessagesResponseSchema,
+  GetSavedMessagesResponseSchema: () => GetSavedMessagesResponseSchema,
+  GetStatusCommentsResponseSchema: () => GetStatusCommentsResponseSchema,
+  GetStatusFeedResponseSchema: () => GetStatusFeedResponseSchema,
+  GetWorkspaceResponseSchema: () => GetWorkspaceResponseSchema,
+  GetWorkspacesResponseSchema: () => GetWorkspacesResponseSchema,
+  GroupSchema: () => GroupSchema,
+  MessageSchema: () => MessageSchema,
   OnboardingProgressSchema: () => OnboardingProgressSchema,
   OnboardingStatusSchema: () => OnboardingStatusSchema,
   OnboardingStep: () => OnboardingStep,
   OnboardingStepSchema: () => OnboardingStepSchema,
   PLAN_LIMITS: () => PLAN_LIMITS,
+  ResponseSchemas: () => ResponseSchemas,
   SOCKET_EVENTS: () => SOCKET_EVENTS,
+  SearchUsersResponseSchema: () => SearchUsersResponseSchema,
+  SendMessageResponseSchema: () => SendMessageResponseSchema,
+  StatusSchema: () => StatusSchema,
   TermsAcceptanceRequestSchema: () => TermsAcceptanceRequestSchema,
+  UserSchema: () => UserSchema,
+  WorkspaceSchema: () => WorkspaceSchema,
   channelMemberSchema: () => channelMemberSchema,
   channelSchema: () => channelSchema,
   conversationMemberSchema: () => conversationMemberSchema,
@@ -63,6 +87,8 @@ __export(index_exports, {
   userPresenceSchema: () => userPresenceSchema,
   userSchema: () => userSchema,
   usernameSchema: () => usernameSchema,
+  validateResponse: () => validateResponse,
+  withValidation: () => withValidation,
   workspaceChannelConversationSchema: () => workspaceChannelConversationSchema,
   workspaceMemberSchema: () => workspaceMemberSchema,
   workspaceSchema: () => workspaceSchema
@@ -399,6 +425,179 @@ var OnboardingProgressSchema = import_zod8.z.object({
   isComplete: import_zod8.z.boolean()
 });
 
+// src/validators/api-responses.ts
+var import_zod9 = require("zod");
+var UserSchema = import_zod9.z.object({
+  id: import_zod9.z.string(),
+  githubId: import_zod9.z.number().optional(),
+  githubUsername: import_zod9.z.string(),
+  avatarUrl: import_zod9.z.string().nullable(),
+  displayName: import_zod9.z.string().nullable(),
+  email: import_zod9.z.string().nullable().optional(),
+  plan: import_zod9.z.enum(["free", "pro"]).optional(),
+  isAdmin: import_zod9.z.boolean().optional(),
+  onboardingCompleted: import_zod9.z.boolean().optional(),
+  createdAt: import_zod9.z.string(),
+  updatedAt: import_zod9.z.string().optional()
+});
+var WorkspaceSchema = import_zod9.z.object({
+  id: import_zod9.z.string(),
+  slug: import_zod9.z.string(),
+  name: import_zod9.z.string(),
+  githubOrgId: import_zod9.z.number().nullable().optional(),
+  githubOrgLogin: import_zod9.z.string().nullable().optional(),
+  createdAt: import_zod9.z.string(),
+  updatedAt: import_zod9.z.string().optional()
+});
+var ConversationSchema = import_zod9.z.object({
+  id: import_zod9.z.string(),
+  workspaceId: import_zod9.z.string().optional(),
+  type: import_zod9.z.enum(["channel", "dm", "group", "DM", "GROUP", "CHANNEL"]),
+  name: import_zod9.z.string().nullable(),
+  topic: import_zod9.z.string().nullable().optional(),
+  isPrivate: import_zod9.z.boolean().optional(),
+  createdAt: import_zod9.z.string(),
+  updatedAt: import_zod9.z.string().optional(),
+  lastMessageAt: import_zod9.z.string().nullable().optional(),
+  unreadCount: import_zod9.z.number().optional(),
+  members: import_zod9.z.array(import_zod9.z.any()).optional()
+});
+var MessageSchema = import_zod9.z.object({
+  id: import_zod9.z.string(),
+  conversationId: import_zod9.z.string(),
+  userId: import_zod9.z.string(),
+  content: import_zod9.z.string(),
+  type: import_zod9.z.enum(["text", "code", "system"]).optional(),
+  metadata: import_zod9.z.record(import_zod9.z.any()).nullable().optional(),
+  user: UserSchema.optional(),
+  createdAt: import_zod9.z.string(),
+  updatedAt: import_zod9.z.string().optional(),
+  editedAt: import_zod9.z.string().nullable().optional(),
+  reactions: import_zod9.z.array(import_zod9.z.any()).optional(),
+  threadCount: import_zod9.z.number().optional()
+});
+var StatusSchema = import_zod9.z.object({
+  id: import_zod9.z.string(),
+  userId: import_zod9.z.string(),
+  content: import_zod9.z.string(),
+  user: UserSchema,
+  likesCount: import_zod9.z.number(),
+  commentsCount: import_zod9.z.number(),
+  isLiked: import_zod9.z.boolean(),
+  createdAt: import_zod9.z.string(),
+  updatedAt: import_zod9.z.string().optional()
+});
+var GroupSchema = import_zod9.z.object({
+  id: import_zod9.z.string(),
+  name: import_zod9.z.string(),
+  avatarUrl: import_zod9.z.string().nullable().optional(),
+  members: import_zod9.z.array(UserSchema).optional(),
+  lastMessage: MessageSchema.nullable().optional(),
+  lastReadSeq: import_zod9.z.number().optional(),
+  unreadCount: import_zod9.z.number().optional(),
+  createdAt: import_zod9.z.string(),
+  updatedAt: import_zod9.z.string().optional()
+});
+var GetWorkspacesResponseSchema = import_zod9.z.object({
+  workspaces: import_zod9.z.array(WorkspaceSchema)
+});
+var GetWorkspaceResponseSchema = import_zod9.z.object({
+  workspace: WorkspaceSchema
+});
+var CreateWorkspaceResponseSchema = import_zod9.z.object({
+  workspace: WorkspaceSchema
+});
+var GetConversationsResponseSchema = import_zod9.z.object({
+  conversations: import_zod9.z.array(ConversationSchema)
+});
+var GetConversationResponseSchema = import_zod9.z.object({
+  conversation: ConversationSchema
+});
+var CreateConversationResponseSchema = import_zod9.z.object({
+  id: import_zod9.z.string(),
+  conversation: ConversationSchema
+});
+var GetMessagesResponseSchema = import_zod9.z.object({
+  messages: import_zod9.z.array(MessageSchema),
+  hasMore: import_zod9.z.boolean()
+});
+var SendMessageResponseSchema = import_zod9.z.object({
+  message: MessageSchema
+});
+var SearchUsersResponseSchema = import_zod9.z.object({
+  users: import_zod9.z.array(UserSchema)
+});
+var GetGroupsResponseSchema = import_zod9.z.object({
+  groups: import_zod9.z.array(GroupSchema)
+});
+var GetGroupResponseSchema = import_zod9.z.object({
+  group: GroupSchema
+});
+var CreateGroupResponseSchema = import_zod9.z.object({
+  group: GroupSchema
+});
+var GetSavedMessagesResponseSchema = import_zod9.z.object({
+  savedMessages: import_zod9.z.array(import_zod9.z.any())
+});
+var GetStatusFeedResponseSchema = import_zod9.z.object({
+  statuses: import_zod9.z.array(StatusSchema),
+  nextCursor: import_zod9.z.string().optional(),
+  hasMore: import_zod9.z.boolean()
+});
+var CreateStatusResponseSchema = import_zod9.z.object({
+  status: StatusSchema
+});
+var GetStatusCommentsResponseSchema = import_zod9.z.object({
+  comments: import_zod9.z.array(import_zod9.z.any()),
+  total: import_zod9.z.number()
+});
+var CreateStatusCommentResponseSchema = import_zod9.z.object({
+  comment: import_zod9.z.any()
+});
+var ResponseSchemas = {
+  "GET /workspaces": GetWorkspacesResponseSchema,
+  "GET /workspaces/:id": GetWorkspaceResponseSchema,
+  "POST /workspaces": CreateWorkspaceResponseSchema,
+  "GET /conversations": GetConversationsResponseSchema,
+  "GET /conversations/:id": GetConversationResponseSchema,
+  "POST /conversations": CreateConversationResponseSchema,
+  "GET /conversations/:id/messages": GetMessagesResponseSchema,
+  "POST /conversations/:id/messages": SendMessageResponseSchema,
+  "GET /users": SearchUsersResponseSchema,
+  "GET /groups": GetGroupsResponseSchema,
+  "GET /groups/:id": GetGroupResponseSchema,
+  "POST /groups": CreateGroupResponseSchema,
+  "GET /saved": GetSavedMessagesResponseSchema,
+  "GET /statuses": GetStatusFeedResponseSchema,
+  "POST /statuses": CreateStatusResponseSchema,
+  "GET /statuses/:id/comments": GetStatusCommentsResponseSchema,
+  "POST /statuses/:id/comments": CreateStatusCommentResponseSchema
+};
+function validateResponse(endpoint, response) {
+  const schema = ResponseSchemas[endpoint];
+  if (!schema) {
+    console.warn(`[API Contract] No schema defined for endpoint: ${endpoint}`);
+    return response;
+  }
+  const result = schema.safeParse(response);
+  if (!result.success) {
+    console.error(`[API Contract Violation] ${endpoint}`);
+    console.error("Expected:", schema.description || "See ResponseSchemas");
+    console.error("Received:", JSON.stringify(response, null, 2));
+    console.error("Errors:", result.error.format());
+    if (process.env.NODE_ENV === "development") {
+      throw new Error(`API Contract Violation: ${endpoint} - ${result.error.message}`);
+    }
+  }
+  return response;
+}
+function withValidation(endpoint, fetcher) {
+  return async () => {
+    const response = await fetcher();
+    return validateResponse(endpoint, response);
+  };
+}
+
 // src/constants/plans.ts
 var PLAN_LIMITS = {
   free: {
@@ -648,14 +847,38 @@ function countWords(text) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  ConversationSchema,
+  CreateConversationResponseSchema,
+  CreateGroupResponseSchema,
+  CreateStatusCommentResponseSchema,
+  CreateStatusResponseSchema,
+  CreateWorkspaceResponseSchema,
   ERROR_CODES,
+  GetConversationResponseSchema,
+  GetConversationsResponseSchema,
+  GetGroupResponseSchema,
+  GetGroupsResponseSchema,
+  GetMessagesResponseSchema,
+  GetSavedMessagesResponseSchema,
+  GetStatusCommentsResponseSchema,
+  GetStatusFeedResponseSchema,
+  GetWorkspaceResponseSchema,
+  GetWorkspacesResponseSchema,
+  GroupSchema,
+  MessageSchema,
   OnboardingProgressSchema,
   OnboardingStatusSchema,
   OnboardingStep,
   OnboardingStepSchema,
   PLAN_LIMITS,
+  ResponseSchemas,
   SOCKET_EVENTS,
+  SearchUsersResponseSchema,
+  SendMessageResponseSchema,
+  StatusSchema,
   TermsAcceptanceRequestSchema,
+  UserSchema,
+  WorkspaceSchema,
   channelMemberSchema,
   channelSchema,
   conversationMemberSchema,
@@ -691,6 +914,8 @@ function countWords(text) {
   userPresenceSchema,
   userSchema,
   usernameSchema,
+  validateResponse,
+  withValidation,
   workspaceChannelConversationSchema,
   workspaceMemberSchema,
   workspaceSchema
